@@ -11,10 +11,20 @@ client.commands = new Collection();
 
 const { DisTube } = require("distube");
 const { SpotifyPlugin } = require("@distube/spotify");
+const { YtDlpPlugin } = require("@distube/yt-dlp");
+const { SoundCloudPlugin } = require("@distube/soundcloud");
 
 client.distube = new DisTube(client, {
+  leaveOnStop: false,
+  emitNewSongOnly: true,
   emitAddSongWhenCreatingQueue: false,
-  plugins: [new SpotifyPlugin()],
+  emitAddListWhenCreatingQueue: false,
+  youtubeDL: false,
+  plugins: [
+    new SpotifyPlugin(),
+    new YtDlpPlugin(),
+    new SoundCloudPlugin(),
+  ],
 });
 
 module.exports = client;

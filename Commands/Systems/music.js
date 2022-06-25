@@ -115,6 +115,28 @@ module.exports = {
       name: "repeat-mode",
       description: "Change the repeat mode",
       type: "SUB_COMMAND",
+      options: [
+        {
+          name: "mode",
+          description: "Mode to set",
+          required: false,
+          type: "NUMBER",
+          choices: [
+            {
+              name: "None",
+              value: 0,
+            },
+            {
+              name: "Song",
+              value: 1,
+            },
+            {
+              name: "Queue",
+              value: 2,
+            },
+          ],
+        },
+      ],
     },
     {
       name: "seek",
@@ -129,77 +151,81 @@ module.exports = {
         },
       ],
     },
-    // {
-    //   name: "set-filter",
-    //   description: "Filter ontop the song",
-    //   type: "SUB_COMMAND",
-    //   options: [
-    //     {
-    //       name: "filter",
-    //       description: "Filter to apply",
-    //       required: true,
-    //       type: "STRING",
-    //       choices: [
-    //         {
-    //           name: "3D",
-    //           value: "3d",
-    //         },
-    //         {
-    //           name: "Bass Boost",
-    //           value: "bassboost",
-    //         },
-    //         {
-    //           name: "Echo",
-    //           value: "echo",
-    //         },
-    //         {
-    //           name: "Karaoke",
-    //           value: "karaoke",
-    //         },
-    //         {
-    //           name: "Nightcore",
-    //           value: "nightcore",
-    //         },
-    //         {
-    //           name: "Vaporwave",
-    //           value: "vaporwave",
-    //         },
-    //         {
-    //           name: "Gate",
-    //           value: "gate",
-    //         },
-    //         {
-    //           name: "Haas",
-    //           value: "haas",
-    //         },
-    //         {
-    //           name: "Reverse",
-    //           value: "reverse",
-    //         },
-    //         {
-    //           name: "Surround",
-    //           value: "surround",
-    //         },
-    //         {
-    //           name: "Mcompand",
-    //           value: "mcompand",
-    //         },
-    //         {
-    //           name: "Phaser",
-    //           value: "phaser",
-    //         },
-    //         {
-    //           name: "Tremolo",
-    //           value: "tremolo",
-    //         },
-    //         {
-    //           name: "Earwax",
-    //           value: "earwax",
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // },
+    {
+      name: "set-filter",
+      description: "Filter ontop the song",
+      type: "SUB_COMMAND",
+      options: [
+        {
+          name: "filter",
+          description: "Filter to apply",
+          required: true,
+          type: "STRING",
+          choices: [
+            {
+              name: "None",
+              value: "none",
+            },
+            {
+              name: "3D",
+              value: "3d",
+            },
+            {
+              name: "Bass Boost",
+              value: "bassboost",
+            },
+            {
+              name: "Echo",
+              value: "echo",
+            },
+            {
+              name: "Karaoke",
+              value: "karaoke",
+            },
+            {
+              name: "Nightcore",
+              value: "nightcore",
+            },
+            {
+              name: "Vaporwave",
+              value: "vaporwave",
+            },
+            {
+              name: "Gate",
+              value: "gate",
+            },
+            {
+              name: "Haas",
+              value: "haas",
+            },
+            {
+              name: "Reverse",
+              value: "reverse",
+            },
+            {
+              name: "Surround",
+              value: "surround",
+            },
+            {
+              name: "Mcompand",
+              value: "mcompand",
+            },
+            {
+              name: "Phaser",
+              value: "phaser",
+            },
+            {
+              name: "Tremolo",
+              value: "tremolo",
+            },
+            {
+              name: "Earwax",
+              value: "earwax",
+            },
+          ],
+        },
+      ],
+    },
   ],
   /**
    * @param {CommandInteraction} interaction
@@ -319,29 +345,52 @@ module.exports = {
         case "previous":
           client.distube.previous(VoiceChannel);
           return interaction.reply({ content: "⏮️ Previous song!" });
-        case "autoPlay":
-          let Mode = await client.distube.toggleAutoplay(VoiceChannel);
+        case "autoplay":
+          let Mode = client.distube.toggleAutoplay(VoiceChannel);
           return interaction.reply({
             content: `🔈 Autoplay is now ${Mode ? "On" : "Off"}!`,
           });
-        case "relatedSong":
-          await client.distube.addRelatedSong(VoiceChannel);
+        case "related-song":
+          client.distube.addRelatedSong(VoiceChannel);
           return interaction.reply({ content: "🎶 Related song added!" });
-        case "RepeatMode":
-          let RepeatMode = await client.distube.toggleRepeatMode(VoiceChannel);
-          return interaction.reply({
-            content: `🔁 Repeat mode is now ${(RepeatMode = RepeatMode
-              ? RepeatMode == 2
-                ? "Queue"
-                : "Song"
-              : "Off")}!`,
-          });
+        case "repeat-mode":
+          if (options.getNumber("mode") !== null) {
+            let RepeatMode = client.distube.setRepeatMode(
+              VoiceChannel,
+              options.getNumber("mode")
+            );
+            return interaction.reply({
+              content: `🔁 Repeat mode set to ${(RepeatMode = RepeatMode
+                ? RepeatMode == 2
+                  ? "Queue"
+                  : "Song"
+                : "Off")}!`,
+            });
+          } else {
+            let RepeatMode = client.distube.setRepeatMode(VoiceChannel);
+            return interaction.reply({
+              content: `🔁 Repeat mode is now ${(RepeatMode = RepeatMode
+                ? RepeatMode == 2
+                  ? "Queue"
+                  : "Song"
+                : "Off")}!`,
+            });
+          }
         case "seek":
           client.distube.seek(VoiceChannel, options.getNumber("seek"));
           return interaction.reply({ content: "🔢 Song seeked!" });
-        // case "filter":
-        //   client.distube.setFilter(VoiceChannel, options.getString("filter"));
-        //   return interaction.reply({ content: "🔢 Song filtered!" });
+        case "set-filter":
+          if (options.getString("filter") === "none") {
+            client.distube.setFilter(VoiceChannel, false);
+            return interaction.reply({ content: "🔇 Filter disabled!" });
+          }
+          let filters = client.distube.setFilter(
+            VoiceChannel,
+            options.getString("filter")
+          );
+          return interaction.reply({
+            content: `🔢 Song filtered! Enabled Filters: ${filters}`,
+          });
         default:
           return interaction.reply({
             content: "Invalid subcommand!",
