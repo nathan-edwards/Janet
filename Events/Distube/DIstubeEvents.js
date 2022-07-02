@@ -79,13 +79,6 @@ client.distube
       ],
     })
   )
-  .on("finish", (queue) =>
-    queue.textChannel.send({
-      embeds: [
-        new MessageEmbed().setColor("GREEN").setDescription("Finished!"),
-      ],
-    })
-  );
 
 module.exports = {
   name: "DistubeEvents",

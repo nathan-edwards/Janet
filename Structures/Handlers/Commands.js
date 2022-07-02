@@ -39,17 +39,19 @@ module.exports = async (client, PG, Ascii) => {
 
   console.log(Table.toString());
 
-  // For deployment
-  client.on("ready", () =>
-    client.guilds.cache.forEach((g) =>
-      g.commands.set(CommandsArray).catch(() => {})
-    )
-  );
-
-  // For development
-  // client.on("ready", () =>
-  //   client.guilds
-  //     .fetch(process.env.GUILD_ID)
-  //     .then((g) => g.commands.set(CommandsArray).catch(() => {}))
-  // );
+  client.on("ready", () => {
+    try {
+      if (process.env.ENV === "PRODUCTION") {
+        client.guilds.cache.forEach((g) =>
+          g.commands.set(CommandsArray).catch(() => {})
+        );
+      } else {
+        client.guilds
+          .fetch(process.env.GUILD_ID)
+          .then((g) => g.commands.set(CommandsArray).catch(() => {}));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  });
 };

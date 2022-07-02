@@ -32,90 +32,114 @@ module.exports = {
    * @param {CommandInteraction} interaction
    */
   async execute(interaction) {
-    riotAPI(
-      interaction.options.getString("region"),
-      `/lol/clash/v1/tournaments`
-    ).then((data) => {
-      for (let i = 0; i < data.length; i++) {
-        for (let j = 0; j < data.length - i - 1; j++) {
-          if (
-            data[j + 1].schedule[0].startTime < data[j].schedule[0].startTime
-          ) {
-            // ES6 way of swapping array elements
-            [data[j + 1], data[j]] = [data[j], data[j + 1]];
-          }
-        }
-      }
-
-      const capitalize = (s) => {
-        if (typeof s !== "string") return "";
-        return s.charAt(0).toUpperCase() + s.slice(1);
-      };
-
-      const removeUnderscore = (s) => {
-        if (typeof s !== "string") return "";
-        return s.replace("_", " ");
-      };
-
-      const baseImagePath = path.join(__dirname, "../../images/clash-splash/");
-      interaction.guild.channels.fetch().then((channels) => {
-        for (const [key, value] of channels.entries()) {
-          if (value.name == "Clash") {
+    try {
+      riotAPI(
+        interaction.options.getString("region"),
+        `/lol/clash/v1/tournaments`
+      ).then((data) => {
+        for (let i = 0; i < data.length; i++) {
+          for (let j = 0; j < data.length - i - 1; j++) {
             if (
-              data[0].nameKeySecondary == "day_1" ||
-              data[0].nameKeySecondary == "day_3"
+              data[j + 1].schedule[0].startTime < data[j].schedule[0].startTime
             ) {
-              interaction.guild.scheduledEvents.create({
-                name:
-                  "Clash: " +
-                  removeUnderscore(capitalize(data[0].nameKey)) +
-                  " Cup " +
-                  removeUnderscore(
-                    capitalize(data[0].nameKeySecondary.replace("_", " "))
-                  ),
-                scheduledStartTime: data[0].schedule[0].startTime,
-                privacyLevel: 2,
-                entityType: 2,
-                channel: key,
-                image: `${baseImagePath}${data[0].nameKey}.jpg`,
-              });
-              interaction.guild.scheduledEvents.create({
-                name:
-                  "Clash: " +
-                  removeUnderscore(capitalize(data[1].nameKey)) +
-                  " Cup " +
-                  removeUnderscore(
-                    capitalize(data[1].nameKeySecondary.replace("_", " "))
-                  ),
-                scheduledStartTime: data[1].schedule[0].startTime,
-                privacyLevel: 2,
-                entityType: 2,
-                channel: value,
-                image: `${baseImagePath}${data[0].nameKey}.jpg`,
-              });
-            } else {
-              interaction.guild.scheduledEvents.create({
-                name:
-                  "Clash: " +
-                  removeUnderscore(capitalize(data[0].nameKey)) +
-                  " Cup " +
-                  removeUnderscore(
-                    capitalize(data[0].nameKeySecondary.replace("_", " "))
-                  ),
-                scheduledStartTime: data[0].schedule[0].startTime,
-                privacyLevel: 2,
-                entityType: 2,
-                channel: value,
-                image: `${baseImagePath}${data[0].nameKey}.jpg`,
-              });
+              // ES6 way of swapping array elements
+              [data[j + 1], data[j]] = [data[j], data[j + 1]];
             }
           }
         }
+
+        const capitalize = (s) => {
+          if (typeof s !== "string") return "";
+          return s.charAt(0).toUpperCase() + s.slice(1);
+        };
+
+        function titleCase(s) {
+          return s
+            .toLowerCase()
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.substring(1))
+            .join(" ");
+        }
+
+        const removeUnderscore = (s) => {
+          if (typeof s !== "string") return "";
+          return s.replace("_", " ");
+        };
+
+        const baseImagePath = path.join(
+          __dirname,
+          "../../images/clash-splash/"
+        );
+        interaction.guild.channels.fetch().then((channels) => {
+          for (const [key, value] of channels.entries()) {
+            if (value.name == "Clash") {
+              if (
+                data[0].nameKeySecondary == "day_1" ||
+                data[0].nameKeySecondary == "day_3"
+              ) {
+                interaction.guild.scheduledEvents.create({
+                  name:
+                    "Clash: " +
+                    titleCase(removeUnderscore(data[0].nameKey)) +
+                    " Cup " +
+                    titleCase(
+                      removeUnderscore(
+                        data[0].nameKeySecondary.replace("_", " ")
+                      )
+                    ),
+                  scheduledStartTime: data[0].schedule[0].startTime,
+                  privacyLevel: 2,
+                  entityType: 2,
+                  channel: key,
+                  image: `${baseImagePath}${data[0].nameKey}.jpg`,
+                });
+                interaction.guild.scheduledEvents.create({
+                  name:
+                    "Clash: " +
+                    titleCase(removeUnderscore(data[1].nameKey)) +
+                    " Cup " +
+                    titleCase(
+                      removeUnderscore(
+                        data[1].nameKeySecondary.replace("_", " ")
+                      )
+                    ),
+                  scheduledStartTime: data[1].schedule[0].startTime,
+                  privacyLevel: 2,
+                  entityType: 2,
+                  channel: value,
+                  image: `${baseImagePath}${data[0].nameKey}.jpg`,
+                });
+              } else {
+                interaction.guild.scheduledEvents.create({
+                  name:
+                    "Clash: " +
+                    titleCase(removeUnderscore(data[0].nameKey)) +
+                    " Cup " +
+                    titleCase(
+                      removeUnderscore(
+                        data[0].nameKeySecondary.replace("_", " ")
+                      )
+                    ),
+                  scheduledStartTime: data[0].schedule[0].startTime,
+                  privacyLevel: 2,
+                  entityType: 2,
+                  channel: value,
+                  image: `${baseImagePath}${data[0].nameKey}.jpg`,
+                });
+              }
+            }
+          }
+        });
+        interaction.reply({
+          content: "Clash Events Created",
+          ephemeral: true,
+        });
       });
+    } catch (error) {
       interaction.reply({
-        content: "Clash Events Created",
+        content: "Error: " + error,
         ephemeral: true,
       });
-    });
+    }
   },
 };

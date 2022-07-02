@@ -27,6 +27,8 @@ module.exports = {
           description: "Volume to set",
           required: true,
           type: "NUMBER",
+          minValue: 0,
+          maxValue: 100,
         },
       ],
     },
@@ -277,13 +279,13 @@ module.exports = {
           return interaction.reply({ content: "⏭️ Song skipped!" });
         case "stop":
           client.distube.stop(VoiceChannel);
-          return interaction.reply({ content: "🛑 Music stopped!" });
+          return interaction.reply({ content: "⏹️ Music stopped!" });
         case "pause":
           client.distube.pause(VoiceChannel);
           return interaction.reply({ content: "⏸️ Music paused!" });
         case "resume":
           client.distube.resume(VoiceChannel);
-          return interaction.reply({ content: "▶️ Music resumed!" });
+          return interaction.reply({ content: "▶ Music resumed!" });
         case "queue":
           const Queue = await client.distube.getQueue(VoiceChannel);
           if (Queue.length === 0) {
@@ -389,7 +391,7 @@ module.exports = {
             options.getString("filter")
           );
           return interaction.reply({
-            content: `🔢 Song filtered! Enabled Filters: ${filters}`,
+            content: `🔣 Song filtered! Enabled Filters: ${filters}`,
           });
         default:
           return interaction.reply({

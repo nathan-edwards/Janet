@@ -9,6 +9,7 @@ module.exports = {
    * @param {CommandInteraction} interaction
    */
   execute(client) {
+    console.log(`Logged in as ${client.user.tag}!`);
     console.log(`The client is now ready!`);
     client.user.setActivity("Hi There!");
 
