@@ -1,35 +1,31 @@
-const { CommandInteraction, MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 const dayjs = require("dayjs");
-const riotAPI = require("../API/riot-api");
+const riotAPI = require("../../API/riot-api");
 
 module.exports = {
-  name: "next-clash",
-  description: "Next Clash Date.",
-  options: [
-    {
-      name: "region",
-      description: "The region of the summoner",
-      required: true,
-      type: "STRING",
-      choices: [
-        { name: "BR", value: "br1" },
-        { name: "EUN", value: "eun1" },
-        { name: "EUW", value: "euw1" },
-        { name: "JP", value: "jp1" },
-        { name: "KR", value: "kr" },
-        { name: "LA1", value: "la1" },
-        { name: "LA2", value: "la2" },
-        { name: "NA", value: "na1" },
-        { name: "OC", value: "oc1" },
-        { name: "TR", value: "tr1" },
-        { name: "RU", value: "ru" },
-      ],
-    },
-  ],
-  /**
-   *
-   * @param {CommandInteraction} interaction
-   */
+  data: new SlashCommandBuilder()
+    .setName("next-clash")
+    .setDescription("Next Clash Date.")
+    .addStringOption((option) =>
+      option
+        .setName("region")
+        .setDescription("The region to get the clash event from.")
+        .setRequired(true)
+        .addChoices(
+          { name: "BR", value: "br1" },
+          { name: "EUN", value: "eun1" },
+          { name: "EUW", value: "euw1" },
+          { name: "JP", value: "jp1" },
+          { name: "KR", value: "kr" },
+          { name: "LA1", value: "la1" },
+          { name: "LA2", value: "la2" },
+          { name: "NA", value: "na1" },
+          { name: "OC", value: "oc1" },
+          { name: "TR", value: "tr1" },
+          { name: "RU", value: "ru" }
+        )
+    ),
   async execute(interaction) {
     riotAPI(
       interaction.options.getString("region"),
@@ -52,7 +48,8 @@ module.exports = {
       };
 
       function titleCase(s) {
-        return s.toLowerCase()
+        return s
+          .toLowerCase()
           .split(" ")
           .map((word) => word.charAt(0).toUpperCase() + word.substring(1))
           .join(" ");

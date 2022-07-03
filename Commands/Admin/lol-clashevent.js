@@ -1,36 +1,31 @@
-const { CommandInteraction } = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
 const path = require("node:path");
 const riotAPI = require("../../API/riot-api");
 
 module.exports = {
-  name: "schedule-clash-event",
-  description: "Next Clash Date.",
-  permission: "ADMINISTRATOR",
-  options: [
-    {
-      name: "region",
-      description: "The region of the summoner",
-      required: true,
-      type: "STRING",
-      choices: [
-        { name: "BR", value: "br1" },
-        { name: "EUN", value: "eun1" },
-        { name: "EUW", value: "euw1" },
-        { name: "JP", value: "jp1" },
-        { name: "KR", value: "kr" },
-        { name: "LA1", value: "la1" },
-        { name: "LA2", value: "la2" },
-        { name: "NA", value: "na1" },
-        { name: "OC", value: "oc1" },
-        { name: "TR", value: "tr1" },
-        { name: "RU", value: "ru" },
-      ],
-    },
-  ],
-  /**
-   *
-   * @param {CommandInteraction} interaction
-   */
+  data: new SlashCommandBuilder()
+    .setName("schedule-clash-event")
+    .setDescription("Next Clash Date.")
+    // .setDefaultMemberPermissions("ADMINISTRATOR")
+    .addStringOption((option) =>
+      option
+        .setName("region")
+        .setDescription("The region to get the clash event from.")
+        .setRequired(true)
+        .addChoices(
+          { name: "BR", value: "br1" },
+          { name: "EUN", value: "eun1" },
+          { name: "EUW", value: "euw1" },
+          { name: "JP", value: "jp1" },
+          { name: "KR", value: "kr" },
+          { name: "LA1", value: "la1" },
+          { name: "LA2", value: "la2" },
+          { name: "NA", value: "na1" },
+          { name: "OC", value: "oc1" },
+          { name: "TR", value: "tr1" },
+          { name: "RU", value: "ru" }
+        )
+    ),
   async execute(interaction) {
     try {
       riotAPI(

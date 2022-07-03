@@ -1,50 +1,46 @@
-const { CommandInteraction, MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  name: "suggest",
-  description: "Create a suggestion",
-  options: [
-    {
-      name: "type",
-      description: "Select the type",
-      required: true,
-      type: "STRING",
-      choices: [
-        {
-          name: "Command",
-          value: "command",
-        },
-        {
-          name: "System",
-          value: "system",
-        },
-        {
-          name: "Feature",
-          value: "feature",
-        },
-        {
-          name: "Event",
-          value: "Event",
-        },
-      ],
-    },
-    {
-      name: "name",
-      description: "Provide name for suggestion",
-      required: true,
-      type: "STRING",
-    },
-    {
-      name: "description",
-      description: "Provide description for suggestion",
-      required: true,
-      type: "STRING",
-    },
-  ],
-  /**
-   *
-   * @param {CommandInteraction} interaction
-   */
+  data: new SlashCommandBuilder()
+    .setName("suggest")
+    .setDescription("Create a suggestion")
+    .addStringOption((option) =>
+      option
+        .setName("type")
+        .setDescription("Select the type")
+        .setRequired(true)
+        .setChoices(
+          {
+            name: "Command",
+            value: "command",
+          },
+          {
+            name: "System",
+            value: "system",
+          },
+          {
+            name: "Feature",
+            value: "feature",
+          },
+          {
+            name: "Event",
+            value: "Event",
+          }
+        )
+    )
+    .addStringOption((option) =>
+      option
+        .setName("name")
+        .setDescription("Provide name for suggestion")
+        .setRequired(true)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("description")
+        .setDescription("Provide description for suggestion")
+        .setRequired(true)
+    ),
   async execute(interaction) {
     const { options } = interaction;
     const type = options.getString("type");

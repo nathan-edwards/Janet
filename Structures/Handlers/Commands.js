@@ -1,57 +1,51 @@
+require("dotenv").config();
+const { REST } = require("@discordjs/rest");
+const { Routes } = require("discord-api-types/v9");
+const fs = require("node:fs");
 const { Perms } = require("../Validation/Permissions");
-const { Client } = require("discord.js");
 
-/**
- * @param {Client} client
- */
 module.exports = async (client, PG, Ascii) => {
-  const Table = new Ascii("Commands Loaded");
-
-  const CommandsArray = [];
-
-  (await PG(`${process.cwd().replace(/\\/g, "/")}/Commands/**/*.js`)).map(
-    async (file) => {
-      const command = require(file);
-
-      if (!command.name)
-        return Table.addRow(file.split("/")[7], "🛑 FAILED", "Missing a name.");
-
-      if (!command.context && !command.description)
-        return Table.addRow(
-          file.split("/")[7],
-          "🛑 FAILED",
-          "Missing a description."
-        );
-
-      if (command.permission) {
-        if (Perms.includes(command.permission))
-          command.defaultPermission = false;
-        else
-          return Table.addRow(command.name, "🛑 FAILED", "Invalid permission.");
+  client.handleCommands = async (commandFolders, path) => {
+    const Table = new Ascii("Commands Loaded");
+    client.commandArray = [];
+    for (folder of commandFolders) {
+      const commandFiles = fs
+        .readdirSync(`${path}/${folder}`)
+        .filter((file) => file.endsWith(".js"));
+      for (file of commandFiles) {
+        const command = require(`../../Commands/${folder}/${file}`);
+        client.commands.set(command.data.name, command);
+        client.commandArray.push(command.data.toJSON());
+        Table.addRow(command.data.name, "✅ LOADED");
       }
-
-      client.commands.set(command.name, command);
-      CommandsArray.push(command);
-
-      await Table.addRow(command.name, "✅ LOADED");
     }
-  );
 
-  console.log(Table.toString());
+    const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
-  client.on("ready", () => {
-    try {
-      if (process.env.ENV === "PRODUCTION") {
-        client.guilds.cache.forEach((g) =>
-          g.commands.set(CommandsArray).catch(() => {})
-        );
-      } else {
-        client.guilds
-          .fetch(process.env.GUILD_ID)
-          .then((g) => g.commands.set(CommandsArray).catch(() => {}));
+    (async () => {
+      try {
+        if (process.env.ENV === "PRODUCTION") {
+          console.log("\nStarted refreshing application (/) commands.");
+          await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
+            body: client.commandArray,
+          });
+        } else {
+          console.log(
+            "\nStarted refreshing application (/) commands for Guild."
+          );
+          await rest.put(
+            Routes.applicationGuildCommands(
+              process.env.CLIENT_ID,
+              process.env.GUILD_ID
+            ),
+            { body: client.commandArray }
+          );
+        }
+      } catch (e) {
+        console.error(e);
       }
-    } catch (e) {
-      console.log(e);
-    }
-  });
+    })();
+    console.log("Successfully reloaded application (/) commands.\n");
+    console.log(Table.toString());
+  };
 };

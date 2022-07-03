@@ -1,25 +1,19 @@
-const { CommandInteraction, MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  name: "help",
-  description: "Get help for a command",
-  options: [
-    {
-      name: "command",
-      description: "Get help for a command",
-      type: "STRING",
-      choices: [
-        {
+  data: new SlashCommandBuilder()
+    .setName("help")
+    .setDescription("Get help for a command")
+    .addStringOption((option) =>
+      option
+        .setName("command")
+        .setDescription("Get help for a command")
+        .addChoices({
           name: "Music",
           value: "music",
-        },
-      ],
-    },
-  ],
-  /**
-   *
-   * @param {CommandInteraction} interaction
-   */
+        })
+    ),
   async execute(interaction) {
     const embed = new MessageEmbed()
       .setColor("#0099ff")

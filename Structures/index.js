@@ -5,9 +5,12 @@ const { mongoose } = require("mongoose");
 const { promisify } = require("util");
 const { glob } = require("glob");
 const Ascii = require("ascii-table");
+const fs = require("fs");
 const PG = promisify(glob);
 
 client.commands = new Collection();
+
+require("dotenv").config();
 
 const { DisTube } = require("distube");
 const { SpotifyPlugin } = require("@distube/spotify");
@@ -20,19 +23,17 @@ client.distube = new DisTube(client, {
   emitAddSongWhenCreatingQueue: false,
   emitAddListWhenCreatingQueue: false,
   youtubeDL: false,
-  plugins: [
-    new SpotifyPlugin(),
-    new YtDlpPlugin(),
-    new SoundCloudPlugin(),
-  ],
+  plugins: [new SpotifyPlugin(), new YtDlpPlugin(), new SoundCloudPlugin()],
 });
 
 module.exports = client;
 
-["Events", "Commands"].forEach((handler) => {
-  require(`./Handlers/${handler}`)(client, PG, Ascii);
-});
-
-require("dotenv").config();
-
-client.login(process.env.TOKEN);
+const commandFolders = fs.readdirSync("./Commands");
+(async () => {
+  ["Events", "Commands"].forEach((handler) => {
+    require(`./Handlers/${handler}`)(client, PG, Ascii);
+  });
+  client.handleCommands(commandFolders, "./Commands");
+  client.handleEvents();
+  client.login(process.env.TOKEN);
+})();

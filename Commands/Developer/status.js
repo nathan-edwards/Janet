@@ -1,16 +1,13 @@
-const { Client, MessageEmbed, CommandInteraction } = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 const { connection } = require("mongoose");
 require("../../Events/Client/ready");
 
 module.exports = {
-  name: "status",
-  description: "Shows the status of the bot",
-  permission: "ADMINISTRATOR",
-  /**
-   *
-   * @param {CommandInteraction} interaction
-   * @param {Client} client
-   */
+  data: new SlashCommandBuilder()
+    .setName("status")
+    .setDescription("Shows the status of the bot"),
+    // .setDefaultMemberPermissions("ADMINISTRATOR"),
   async execute(interaction, client) {
     const Response = new MessageEmbed()
       .setColor("#0099ff")

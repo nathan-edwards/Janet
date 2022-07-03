@@ -1,15 +1,11 @@
-const { CommandInteraction } = require("discord.js");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
 module.exports = {
   name: "ready",
   once: true,
-  /**
-   * @param {CommandInteraction} interaction
-   */
   execute(client) {
-    console.log(`Logged in as ${client.user.tag}!`);
+    console.log(`\nLogged in as ${client.user.tag}!`);
     console.log(`The client is now ready!`);
     client.user.setActivity("Hi There!");
 

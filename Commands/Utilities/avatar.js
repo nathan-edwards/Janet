@@ -1,13 +1,10 @@
-const { ContextMenuInteraction, MessageEmbed } = require("discord.js");
+const { ContextMenuCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  name: "avatar",
-  type: "USER",
-  context: true,
-  /**
-   *
-   * @param {ContextMenuInteraction} interaction
-   */
+  data: new ContextMenuCommandBuilder()
+    .setName("avatar")
+    .setType(2),
   async execute(interaction) {
     const target = await interaction.guild.members.fetch(interaction.targetId);
     const Response = new MessageEmbed()

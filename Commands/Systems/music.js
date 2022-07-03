@@ -1,238 +1,202 @@
-const { CommandInteraction, MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  name: "music",
-  description: "Complete Music System",
-  options: [
-    {
-      name: "play",
-      description: "Play a song",
-      type: "SUB_COMMAND",
-      options: [
-        {
-          name: "query",
-          description: "Song to play",
-          required: true,
-          type: "STRING",
-        },
-      ],
-    },
-    {
-      name: "volume",
-      description: "Change the volume",
-      type: "SUB_COMMAND",
-      options: [
-        {
-          name: "volume",
-          description: "Volume to set",
-          required: true,
-          type: "NUMBER",
-          minValue: 0,
-          maxValue: 100,
-        },
-      ],
-    },
-    {
-      name: "skip",
-      description: "Skip a song",
-      type: "SUB_COMMAND",
-    },
-    {
-      name: "stop",
-      description: "Stop the music",
-      type: "SUB_COMMAND",
-    },
-    {
-      name: "pause",
-      description: "Pause the music",
-      type: "SUB_COMMAND",
-    },
-    {
-      name: "resume",
-      description: "Resume the music",
-      type: "SUB_COMMAND",
-    },
-    {
-      name: "queue",
-      description: "Show the queue",
-      type: "SUB_COMMAND",
-    },
-    {
-      name: "np",
-      description: "Show the current song",
-      type: "SUB_COMMAND",
-    },
-    {
-      name: "clear",
-      description: "Clear the queue",
-      type: "SUB_COMMAND",
-    },
-    {
-      name: "shuffle",
-      description: "Shuffle the queue",
-      type: "SUB_COMMAND",
-    },
-    {
-      name: "jump",
-      description: "Jump to a song",
-      type: "SUB_COMMAND",
-      options: [
-        {
-          name: "index",
-          description: "Index of the song",
-          required: true,
-          type: "NUMBER",
-        },
-      ],
-    },
-    {
-      name: "remove",
-      description: "Remove a song",
-      type: "SUB_COMMAND",
-      options: [
-        {
-          name: "index",
-          description: "Index of the song",
-          required: true,
-          type: "NUMBER",
-        },
-      ],
-    },
-    {
-      name: "previous",
-      description: "Play the previous song",
-      type: "SUB_COMMAND",
-    },
-    {
-      name: "autoplay",
-      description: "Autoplay the queue",
-      type: "SUB_COMMAND",
-    },
-    {
-      name: "related-song",
-      description: "Add related song",
-      type: "SUB_COMMAND",
-    },
-    {
-      name: "repeat-mode",
-      description: "Change the repeat mode",
-      type: "SUB_COMMAND",
-      options: [
-        {
-          name: "mode",
-          description: "Mode to set",
-          required: false,
-          type: "NUMBER",
-          choices: [
-            {
-              name: "None",
-              value: 0,
-            },
-            {
-              name: "Song",
-              value: 1,
-            },
-            {
-              name: "Queue",
-              value: 2,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      name: "seek",
-      description: "Seek to a time",
-      type: "SUB_COMMAND",
-      options: [
-        {
-          name: "time",
-          description: "Time to seek",
-          required: true,
-          type: "NUMBER",
-        },
-      ],
-    },
-    {
-      name: "set-filter",
-      description: "Filter ontop the song",
-      type: "SUB_COMMAND",
-      options: [
-        {
-          name: "filter",
-          description: "Filter to apply",
-          required: true,
-          type: "STRING",
-          choices: [
-            {
-              name: "None",
-              value: "none",
-            },
-            {
-              name: "3D",
-              value: "3d",
-            },
-            {
-              name: "Bass Boost",
-              value: "bassboost",
-            },
-            {
-              name: "Echo",
-              value: "echo",
-            },
-            {
-              name: "Karaoke",
-              value: "karaoke",
-            },
-            {
-              name: "Nightcore",
-              value: "nightcore",
-            },
-            {
-              name: "Vaporwave",
-              value: "vaporwave",
-            },
-            {
-              name: "Gate",
-              value: "gate",
-            },
-            {
-              name: "Haas",
-              value: "haas",
-            },
-            {
-              name: "Reverse",
-              value: "reverse",
-            },
-            {
-              name: "Surround",
-              value: "surround",
-            },
-            {
-              name: "Mcompand",
-              value: "mcompand",
-            },
-            {
-              name: "Phaser",
-              value: "phaser",
-            },
-            {
-              name: "Tremolo",
-              value: "tremolo",
-            },
-            {
-              name: "Earwax",
-              value: "earwax",
-            },
-          ],
-        },
-      ],
-    },
-  ],
-  /**
-   * @param {CommandInteraction} interaction
-   * @param {Client} client
-   */
+  data: new SlashCommandBuilder()
+    .setName("music")
+    .setDescription("Complete Music System")
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("play")
+        .setDescription("Play a song")
+        .addStringOption((option) =>
+          option
+            .setName("query")
+            .setDescription("Song to play")
+            .setRequired(true)
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("volume")
+        .setDescription("Change the volume")
+        .addNumberOption((option) =>
+          option
+            .setName("volume")
+            .setDescription("Volume to set")
+            .setRequired(true)
+            .setMinValue(0)
+            .setMaxValue(100)
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName("skip").setDescription("Skip a song")
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName("stop").setDescription("Stop the music")
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName("pause").setDescription("Pause the music")
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName("resume").setDescription("Resume the music")
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName("queue").setDescription("Show the queue")
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName("np").setDescription("Show the current song")
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName("clear").setDescription("Clear the queue")
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName("shuffle").setDescription("Shuffle the queue")
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("jump")
+        .setDescription("Jump to a song")
+        .addNumberOption((option) =>
+          option
+            .setName("index")
+            .setDescription("Index of the song")
+            .setRequired(true)
+            .setMinValue(0)
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("remove")
+        .setDescription("Remove a song")
+        .addNumberOption((option) =>
+          option
+            .setName("index")
+            .setDescription("Index of the song")
+            .setRequired(true)
+            .setMinValue(0)
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName("previous").setDescription("Play the previous song")
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName("autoplay").setDescription("Autoplay the queue")
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName("related-song").setDescription("Add related song")
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("repeat-mode")
+        .setDescription("Change the repeat mode")
+        .addNumberOption((option) =>
+          option
+            .setName("mode")
+            .setDescription("Mode to set")
+            .setRequired(false)
+            .setMinValue(0)
+            .setMaxValue(2)
+            .setChoices(
+              {
+                name: "None",
+                value: 0,
+              },
+              {
+                name: "Song",
+                value: 1,
+              },
+              {
+                name: "Queue",
+                value: 2,
+              }
+            )
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("seek")
+        .setDescription("Seek to a time")
+        .addNumberOption((option) =>
+          option
+            .setName("time")
+            .setDescription("Time to seek")
+            .setRequired(true)
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("set-filter")
+        .setDescription("Filter ontop the song")
+        .addStringOption((option) =>
+          option
+            .setName("filter")
+            .setDescription("Filter to apply")
+            .setRequired(true)
+            .setChoices(
+              {
+                name: "None",
+                value: "none",
+              },
+              {
+                name: "3D",
+                value: "3d",
+              },
+              {
+                name: "Bass Boost",
+                value: "bassboost",
+              },
+              {
+                name: "Echo",
+                value: "echo",
+              },
+              {
+                name: "Karaoke",
+                value: "karaoke",
+              },
+              {
+                name: "Nightcore",
+                value: "nightcore",
+              },
+              {
+                name: "Vaporwave",
+                value: "vaporwave",
+              },
+              {
+                name: "Gate",
+                value: "gate",
+              },
+              {
+                name: "Haas",
+                value: "haas",
+              },
+              {
+                name: "Reverse",
+                value: "reverse",
+              },
+              {
+                name: "Surround",
+                value: "surround",
+              },
+              {
+                name: "Mcompand",
+                value: "mcompand",
+              },
+              {
+                name: "Phaser",
+                value: "phaser",
+              },
+              {
+                name: "Tremolo",
+                value: "tremolo",
+              },
+              {
+                name: "Earwax",
+                value: "earwax",
+              }
+            )
+        )
+    ),
   async execute(interaction, client) {
     const { options, member, guild, channel } = interaction;
     const VoiceChannel = member.voice.channel;

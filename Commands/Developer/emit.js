@@ -1,25 +1,21 @@
-const { CommandInteraction, Permissions } = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { Permissions } = require("discord.js");
 
 module.exports = {
-  name: "emit",
-  description: "Event emitter.",
-  permission: "ADMINISTRATOR",
-  options: [
-    {
-      name: "event",
-      description: "The event to emit.",
-      required: true,
-      type: "STRING",
-      choices: [
-        { name: "guildMemberAdd", value: "guildMemberAdd" },
-        { name: "guildMemberRemove", value: "guildMemberRemove" },
-      ],
-    },
-  ],
-  /**
-   *
-   * @param {CommandInteraction} interaction
-   */
+  data: new SlashCommandBuilder()
+    .setName("emit")
+    .setDescription("Event emitter.")
+    // .setDefaultMemberPermissions("ADMINISTRATOR")
+    .addStringOption((option) =>
+      option
+        .setName("event")
+        .setDescription("The event to emit.")
+        .setRequired(true)
+        .addChoices(
+          { name: "guildMemberAdd", value: "guildMemberAdd" },
+          { name: "guildMemberRemove", value: "guildMemberRemove" }
+        )
+    ),
   execute(interaction) {
     const { options } = interaction;
     const event = options.getString("event");

@@ -1,30 +1,26 @@
-const { CommandInteraction, MessageEmbed } = require("discord.js");
-const { execute } = require("../Developer/status");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  name: "clear",
-  description: "Clears a specified number of messages",
-  permission: "MANAGE_MESSAGES",
-  options: [
-    {
-      name: "amount",
-      description: "The amount of messages to delete",
-      required: true,
-      type: "INTEGER",
-    },
-    {
-      name: "target",
-      description: "The target user",
-      required: false,
-      type: "USER",
-    },
-  ],
-  /**
-   * @param {CommandInteraction} interaction
-   */
+  data: new SlashCommandBuilder()
+    .setName("clear")
+    .setDescription("Clears a specified number of messages")
+    // .setDefaultMemberPermission("MANAGE_MESSAGES")
+    .addNumberOption((option) =>
+      option
+        .setName("amount")
+        .setDescription("The amount of messages to delete")
+        .setRequired(true)
+    )
+    .addUserOption((option) =>
+      option
+        .setName("target")
+        .setDescription("The target user")
+        .setRequired(false)
+    ),
   async execute(interaction) {
     const { channel, options } = interaction;
-    const amount = options.getInteger("amount");
+    const amount = options.getNumber("amount");
     const target = options.getUser("target");
 
     const Messages = await channel.messages.fetch();
@@ -49,7 +45,7 @@ module.exports = {
     } else {
       await channel.bulkDelete(amount, true).then((messages) => {
         Response.setDescription(`🧹 Deleted ${messages.size} messages`);
-        interaction.reply({ embeds: [Response] });
+        interaction.reply({ embeds: [Response], ephemeral: true });
       });
     }
   },

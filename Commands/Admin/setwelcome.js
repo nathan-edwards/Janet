@@ -1,30 +1,28 @@
-const { CommandInteraction, MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
 const welcomeSchema = require("../../Models/welcome-schema");
 
 module.exports = {
-  name: "setwelcome",
-  description: "Set the welcome message for the server.",
-  permissions: ["ADMINISTRATOR"],
-  options: [
-    {
-      name: "channel",
-      description: "The channel to send the welcome message in.",
-      type: "channel",
-      channelTypes: ["text"],
-      required: true,
-    },
-    {
-      name: "message",
-      description: "The welcome message to send.",
-      type: "string",
-      required: true,
-    },
-  ],
-  /**
-   * @param {CommandInteraction} interaction
-   */
+  data: new SlashCommandBuilder()
+    .setName("setwelcome")
+    .setDescription("Set the welcome message for the server.")
+    // .setDefaultMemberPermissions("ADMINISTRATOR")
+    .addChannelOption(
+      (option) =>
+        option
+          .setName("channel")
+          .setDescription("The channel to send the welcome message in.")
+          .setRequired(true)
+      // .addChannelTypes(["text"])
+    )
+    .addStringOption((option) =>
+      option
+        .setName("message")
+        .setDescription("The welcome message to send.")
+        .setRequired(true)
+    ),
   async execute(interaction) {
     const { options, guild } = interaction;
+    const message = options.getString("message");
     const target = message
       ? message.mentions.channels.first()
       : options.getChannel("channel");

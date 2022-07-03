@@ -1,15 +1,12 @@
-const { CommandInteraction, MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  name: "serverinfo",
-  description: "Display info about this server.",
-  /**
-   *
-   * @param {CommandInteraction} interaction
-   */
+  data: new SlashCommandBuilder()
+    .setName("serverinfo")
+    .setDescription("Display info about this server."),
   async execute(interaction) {
     const { guild } = interaction;
-
     const {
       createdTimestamp,
       ownerId,
@@ -51,19 +48,23 @@ module.exports = {
           name: "📘 | CHANNELS",
           value: `
           - Text: ${channels.cache.filter((c) => c.type === "GUILD_TEXT").size}
-          - Voice: ${channels.cache.filter((c) => c.type === "GUILD_VOICE").size}
-          - Threads: ${channels.cache.filter(
-            (c) =>
-              c.type === "GUILD_NEWS_THREAD" &&
-              "GUILD_PRIVATE_THREAD" &&
-              "GUILD_PUBLIC_THREAD"
-          ).size}
-          - Categories: ${channels.cache.filter(
-            (c) => c.type === "GUILD_CATEGORY"
-          ).size}
-          - Stages: ${channels.cache.filter(
-            (c) => c.type === "GUILD_STAGE_VOICE"
-          ).size}
+          - Voice: ${
+            channels.cache.filter((c) => c.type === "GUILD_VOICE").size
+          }
+          - Threads: ${
+            channels.cache.filter(
+              (c) =>
+                c.type === "GUILD_NEWS_THREAD" &&
+                "GUILD_PRIVATE_THREAD" &&
+                "GUILD_PUBLIC_THREAD"
+            ).size
+          }
+          - Categories: ${
+            channels.cache.filter((c) => c.type === "GUILD_CATEGORY").size
+          }
+          - Stages: ${
+            channels.cache.filter((c) => c.type === "GUILD_STAGE_VOICE").size
+          }
           - News: ${channels.cache.filter((c) => c.type === "GUILD_NEWS").size}
 
           Total: ${channels.cache.size}
