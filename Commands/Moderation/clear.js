@@ -1,11 +1,12 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { PermissionFlagsBits } = require("discord-api-types/v10");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("clear")
     .setDescription("Clears a specified number of messages")
-    // .setDefaultMemberPermission("MANAGE_MESSAGES")
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
     .addNumberOption((option) =>
       option
         .setName("amount")

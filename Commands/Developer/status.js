@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { PermissionFlagsBits } = require("discord-api-types/v10");
 const { MessageEmbed } = require("discord.js");
 const { connection } = require("mongoose");
 require("../../Events/Client/ready");
@@ -6,8 +7,8 @@ require("../../Events/Client/ready");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("status")
-    .setDescription("Shows the status of the bot"),
-    // .setDefaultMemberPermissions("ADMINISTRATOR"),
+    .setDescription("Shows the status of the bot")
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
   async execute(interaction, client) {
     const Response = new MessageEmbed()
       .setColor("#0099ff")

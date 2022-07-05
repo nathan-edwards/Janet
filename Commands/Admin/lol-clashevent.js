@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { PermissionFlagsBits } = require("discord-api-types/v10");
 const path = require("node:path");
 const riotAPI = require("../../API/riot-api");
 
@@ -6,7 +7,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("schedule-clash-event")
     .setDescription("Next Clash Date.")
-    // .setDefaultMemberPermissions("ADMINISTRATOR")
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption((option) =>
       option
         .setName("region")

@@ -1,11 +1,12 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { PermissionFlagsBits } = require("discord-api-types/v10");
 const { Permissions } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("emit")
     .setDescription("Event emitter.")
-    // .setDefaultMemberPermissions("ADMINISTRATOR")
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption((option) =>
       option
         .setName("event")

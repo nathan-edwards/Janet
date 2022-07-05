@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
-const fs = require("node:fs");
+const fs = require("fs");
 const { Perms } = require("../Validation/Permissions");
 
 module.exports = async (client, PG, Ascii) => {
