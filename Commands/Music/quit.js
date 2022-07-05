@@ -12,7 +12,7 @@ module.exports = {
         content: "No music is currently being played",
       });
 
-    queue.quit();
+    queue.stop();
 
     return interaction.reply({
       content: "Quit the current song",

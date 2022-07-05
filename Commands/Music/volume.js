@@ -10,7 +10,7 @@ module.exports = {
         .setDescription("The volume to set the current song to")
         .setRequired(true)
     ),
-  async execute(interaction) {
+  async execute(interaction, client) {
     const volumePercentage = interaction.options.getInteger("percentage");
     const queue = client.player.getQueue(interaction.guildId);
     if (!queue?.playing)

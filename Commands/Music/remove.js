@@ -12,7 +12,7 @@ module.exports = {
     ),
   async execute(interaction, client) {
     const { options } = interaction;
-    const index = options.getString("index");
+    const index = options.getNumber("index");
 
     const queue = client.player.getQueue(interaction.guildId);
 
