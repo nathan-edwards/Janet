@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -12,10 +13,14 @@ module.exports = {
         content: "No music is currently being played",
       });
 
-    queue.back();
+    await queue.back();
+
+    const Response = new MessageEmbed()
+      .setColor("#6DB966")
+      .setDescription("⏮️ Playing the previous song!");
 
     return interaction.reply({
-      content: "Skipped the current song",
+      embeds: [Response],
     });
   },
 };

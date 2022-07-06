@@ -2,6 +2,7 @@ require("dotenv").config();
 const { Client, Collection } = require("discord.js");
 const client = new Client({ intents: 32767 });
 const { Player } = require("discord-player");
+const { Lyrics } = require("@discord-player/extractor");
 
 const { promisify } = require("util");
 const { glob } = require("glob");
@@ -17,6 +18,8 @@ client.player = new Player(client, {
     highWaterMark: 1 << 25,
   },
 });
+
+client.lyrics = Lyrics.init(process.env.GENIUS_TOKEN);
 
 module.exports = client;
 

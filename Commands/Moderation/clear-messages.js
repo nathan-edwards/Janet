@@ -4,7 +4,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("clear")
+    .setName("clear-messages")
     .setDescription("Clears a specified number of messages")
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
     .addNumberOption((option) =>

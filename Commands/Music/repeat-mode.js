@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 const { QueueRepeatMode } = require("discord-player");
 
 module.exports = {
@@ -34,12 +35,16 @@ module.exports = {
         queue.setRepeatMode(QueueRepeatMode.TRACK);
       case "QUEUE":
         queue.setRepeatMode(QueueRepeatMode.QUEUE);
-      default:
-        queue.setRepeatMode(QueueRepeatMode.OFF);
+      case "AUTOPLAY":
+        queue.setRepeatMode(QueueRepeatMode.AUTOPLAY);
     }
 
+    const Response = new MessageEmbed()
+      .setColor("#6DB966")
+      .setDescription(` Repeat mode has been set to ${mode}`);
+
     return interaction.reply({
-      content: `Repeat mode has been set to \`${mode}\``,
+      embeds: [Response],
     });
   },
 };

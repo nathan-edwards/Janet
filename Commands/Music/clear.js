@@ -1,8 +1,9 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("clear-queue")
+    .setName("clear")
     .setDescription("Clears the current queue"),
   async execute(interaction, client) {
     const queue = client.player.getQueue(interaction.guildId);
@@ -11,8 +12,13 @@ module.exports = {
       return await interaction.reply("There are no songs in the queue");
 
     queue.clear();
-    await interaction.reply(
-      `The queue of ${queue.tracks.length} songs have been cleared!`
-    );
+
+    const Response = new MessageEmbed()
+      .setColor("#6DB966")
+      .setDescription("🧹 Queue has been cleared!");
+
+    return interaction.reply({
+      embeds: [Response],
+    });
   },
 };

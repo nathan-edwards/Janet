@@ -1,13 +1,14 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("seek")
-    .setDescription("Seeks to a specific time in the current song")
+    .setDescription("Seeks to a specific time (in seconds) in the current song")
     .addNumberOption((option) =>
       option
         .setName("time")
-        .setDescription("The time to seek to")
+        .setDescription("The time to seek to (in seconds)")
         .setRequired(true)
     ),
   async execute(interaction, client) {
@@ -21,10 +22,16 @@ module.exports = {
         content: "No music is currently being played",
       });
 
-    queue.seek(time);
+    if (!queue || !queue.playing || !time) return;
+    if (time * 1000 >= queue.current.durationMS) return message.react("❌");
+    await queue.seek(time * 1000);
+
+    const Response = new MessageEmbed()
+      .setColor("#6DB966")
+      .setDescription(`⏩ Seeked to ${time}`);
 
     return interaction.reply({
-      content: `Seeked to ${time}`,
+      embeds: [Response],
     });
   },
 };

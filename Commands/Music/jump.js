@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -11,20 +12,30 @@ module.exports = {
         .setRequired(true)
     ),
   async execute(interaction, client) {
-    const { options } = interaction;
-    const index = options.getNumber("index");
+    const queue = client.player.getQueue(interaction.guild.id);
 
-    const queue = client.player.getQueue(interaction.guildId);
+    if (!queue || !queue.playing)
+      return interaction.reply("I'm currently not playing in this server.");
 
-    if (!queue?.playing)
-      return interaction.reply({
-        content: "No music is currently being played",
-      });
+    if (queue.tracks.length < 1)
+      return interaction.reply("There is no song in the queue.");
 
-    track = queue.jump(index);
+    const index = interaction.options.getNumber("index", true) - 1;
+
+    if (index > queue.tracks.length || index < 0 || !queue.tracks[index])
+      return interaction.reply("Provided song index does not exist.");
+
+    track = queue.tracks[index];
+    queue.jump(index);
+
+    const Response = new MessageEmbed()
+      .setColor("#6DB966")
+      .setDescription(
+        `🔢 Jumped to: [${track.title}](${track.url}) - ${track.author} [${track.duration}]`
+      );
 
     return interaction.reply({
-      content: `Jumped to ${track.title}`,
+      embeds: [Response],
     });
   },
 };

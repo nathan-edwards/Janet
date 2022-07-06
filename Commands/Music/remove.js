@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -21,10 +22,15 @@ module.exports = {
         content: "No music is currently being played",
       });
 
-    track = queue.remove(index);
+    track = queue.remove(index - 1);
+    const Response = new MessageEmbed()
+      .setColor("#6DB966")
+      .setDescription(
+        `⏏️ Removed: [${track.title}](${track.url}) - ${track.author} [${track.duration}]`
+      );
 
-    return intereaction.reply({
-      content: `Removed ${track.title} from the queue`,
+    return interaction.reply({
+      embeds: [Response],
     });
   },
 };

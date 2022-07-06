@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -11,8 +12,13 @@ module.exports = {
       return await interaction.reply("There are no songs in the queue");
 
     queue.shuffle();
-    await interaction.reply(
-      `The queue of ${queue.tracks.length} songs have been shuffled!`
-    );
+
+    const Response = new MessageEmbed()
+      .setColor("#6DB966")
+      .setDescription("🔀 The queue has been shuffled!");
+
+    return interaction.reply({
+      embeds: [Response],
+    });
   },
 };

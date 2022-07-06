@@ -48,7 +48,7 @@ module.exports = {
     const desc = options.getString("description");
 
     const Response = new MessageEmbed()
-      .setColor("#0099ff")
+      .setColor("#6DB966")
       .setDescription(`${interaction.member} has suggest a ${type}.`)
       .setFooter({
         text: `${interaction.member.user.tag}`,

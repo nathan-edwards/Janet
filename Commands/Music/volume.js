@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -11,7 +12,7 @@ module.exports = {
         .setRequired(true)
     ),
   async execute(interaction, client) {
-    const volumePercentage = interaction.options.getInteger("percentage");
+    const volumePercentage = interaction.options.getNumber("volume");
     const queue = client.player.getQueue(interaction.guildId);
     if (!queue?.playing)
       return interaction.reply({
@@ -30,8 +31,12 @@ module.exports = {
 
     queue.setVolume(volumePercentage);
 
+    const Response = new MessageEmbed()
+      .setColor("#6DB966")
+      .setDescription(`🔊 Volume has been set to ${volumePercentage}%!`);
+
     return interaction.reply({
-      content: `Volume has been set to \`${volumePercentage}%\``,
+      embeds: [Response],
     });
   },
 };
