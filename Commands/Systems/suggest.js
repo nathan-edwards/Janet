@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
+const colors = require("../../Utilities/colors.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -48,7 +49,7 @@ module.exports = {
     const desc = options.getString("description");
 
     const Response = new MessageEmbed()
-      .setColor("#6DB966")
+      .setColor(colors.default)
       .setDescription(`${interaction.member} has suggest a ${type}.`)
       .setFooter({
         text: `${interaction.member.user.tag}`,

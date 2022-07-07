@@ -62,8 +62,8 @@ module.exports = {
           return s.replace("_", " ");
         };
 
-        const baseImagePath = path.join(
-          __dirname,
+        const baseImagePath = path.resolve(
+          process.cwd(),
           "../../images/clash-splash/"
         );
         interaction.guild.channels.fetch().then((channels) => {
