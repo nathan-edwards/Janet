@@ -11,7 +11,7 @@ const colors = require("../../assets/json/colors.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    // .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName("kill-janet")
     .setDescription("Kill Janet."),
   async execute(interaction) {
