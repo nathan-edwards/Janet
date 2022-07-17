@@ -67,7 +67,7 @@ module.exports = {
       initialVolume: 50,
       bufferingTimeout: 1000,
       disableVolume: false, // disabling volume controls can improve performance
-      leaveOnEnd: true,
+      leaveOnEnd: false,
       leaveOnStop: true,
       leaveOnEmpty: true,
       leaveOnEmptyCooldown: 300000,

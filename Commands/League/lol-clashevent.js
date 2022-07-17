@@ -4,7 +4,6 @@ const path = require("node:path");
 const riotAPI = require("../../API/riot-api");
 const colors = require("../../assets/json/colors.json");
 
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("schedule-clash-event")
@@ -64,10 +63,7 @@ module.exports = {
           return s.replace("_", " ");
         };
 
-        const baseImagePath = path.resolve(
-          process.cwd(),
-          "./assets/clash-art"
-        );
+        const baseImagePath = path.join(__dirname, "../../assets/img/clash-art");
         interaction.guild.channels.fetch().then((channels) => {
           for (const [key, value] of channels.entries()) {
             if (value.name == "Clash") {
