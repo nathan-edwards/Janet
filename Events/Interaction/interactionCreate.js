@@ -1,4 +1,5 @@
 const { Client, CommandInteraction, MessageEmbed } = require("discord.js");
+const colors = require("../../assets/json/colors.json");
 
 module.exports = {
   name: "interactionCreate",
@@ -15,7 +16,7 @@ module.exports = {
           interaction.reply({
             embeds: [
               new MessageEmbed()
-                .setColor("RED")
+                .setColor(colors.red)
                 .setDescription(
                   "🛑 There was an error while executing this command!"
                 ),

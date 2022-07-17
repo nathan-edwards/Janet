@@ -2,6 +2,8 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
 const dayjs = require("dayjs");
 const riotAPI = require("../../API/riot-api");
+const colors = require("../../assets/json/colors.json");
+
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -114,7 +116,7 @@ module.exports = {
       }
 
       const Embed = new MessageEmbed()
-        .setColor("#0099ff")
+        .setColor(colors.default)
         .addField(`Clash`, text1);
       interaction.reply({ embeds: [Embed] });
     });

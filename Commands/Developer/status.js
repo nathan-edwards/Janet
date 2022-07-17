@@ -1,7 +1,9 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { PermissionFlagsBits } = require("discord-api-types/v10");
-const { MessageEmbed } = require("discord.js");
 const { connection } = require("mongoose");
+const { MessageEmbed } = require("discord.js");
+const colors = require("../../assets/json/colors.json");
+
 require("../../Events/Client/ready");
 
 module.exports = {
@@ -11,7 +13,7 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
   async execute(interaction, client) {
     const Response = new MessageEmbed()
-      .setColor("#0099ff")
+      .setColor(colors.default)
       .setDescription(
         `**Client**: \`🟢 Online\` - \`${
           client.ws.ping

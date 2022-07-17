@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
+const colors = require("../../assets/json/colors.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -29,7 +30,7 @@ module.exports = {
     queue.jump(index);
 
     const Response = new MessageEmbed()
-      .setColor("#6DB966")
+      .setColor(colors.default)
       .setDescription(
         `🔢 Jumped to: [${track.title}](${track.url}) - ${track.author} [${track.duration}]`
       );

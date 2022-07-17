@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
+const colors = require("../../assets/json/colors.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -34,7 +35,7 @@ module.exports = {
       embeds: [
         {
           description: `Moved [${trackName}](${trackUrl}) to position **${position}**`,
-          color: 0x6db966,
+          color: colors.default,
         },
       ],
     });

@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { PermissionFlagsBits } = require("discord-api-types/v10");
 const { MessageEmbed } = require("discord.js");
+const colors = require("../../assets/json/colors.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -26,7 +27,7 @@ module.exports = {
 
     const Messages = await channel.messages.fetch();
 
-    const Response = new MessageEmbed().setColor("#0099ff");
+    const Response = new MessageEmbed().setColor(colors.default);
 
     if (target) {
       let i = 0;

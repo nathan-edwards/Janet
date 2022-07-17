@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
 const generatePages = require("../../Utilities/embed-pages.js");
+const colors = require("../../assets/json/colors.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -12,7 +13,7 @@ module.exports = {
       if (_fromButton) return;
       const embed = new MessageEmbed();
       embed.setTitle("Server Queue");
-      embed.setColor("#b84e44");
+      embed.setColor(colors.red);
       embed.setDescription(`No songs in the queue.`);
       return message.reply({ embeds: [embed] });
     }
@@ -44,8 +45,8 @@ module.exports = {
             ? `\n... ${queue.tracks.length - pageEnd} more track(s)`
             : ""
         }`);
-        if (page % 2 === 0) embed.setColor("#6DB966");
-        else embed.setColor("#6DB966");
+        if (page % 2 === 0) embed.setColor(colors.default);
+        else embed.setColor(colors.default);
         const title = ["spotify-custom", "soundcloud-custom"].includes(
           queue.current.source
         )
@@ -58,7 +59,7 @@ module.exports = {
         emptypage = true;
         if (page === 1) {
           const embed = new MessageEmbed();
-          embed.setColor("#6DB966");
+          embed.setColor(colors.default);
           embed.setDescription(`${usedby}No more songs in the queue.`);
           const title = ["spotify-custom", "soundcloud-custom"].includes(
             queue.current.source

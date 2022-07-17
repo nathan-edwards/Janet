@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
+const colors = require("../../assets/json/colors.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -25,7 +26,7 @@ module.exports = {
     if (!interaction.member.voice.channelId)
       return interaction.reply({
         embeds: [
-          { description: `You are not in a voice channel!`, color: 0xb84e44 },
+          { description: `You are not in a voice channel!`, color: colors.red },
         ],
         ephemeral: true,
       });
@@ -36,7 +37,10 @@ module.exports = {
     )
       return interaction.reply({
         embeds: [
-          { description: `You are not in my voice channel!`, color: 0xb84e44 },
+          {
+            description: `You are not in my voice channel!`,
+            color: colors.red,
+          },
         ],
         ephemeral: true,
       });
@@ -53,7 +57,7 @@ module.exports = {
     });
     if (!searchResult || !searchResult.tracks.length - 1)
       reply = {
-        embeds: [{ description: `No results found!`, color: 0xb84e44 }],
+        embeds: [{ description: `No results found!`, color: colors.red }],
         ephemeral: true,
       };
     else if (searchResult.playlist)
@@ -61,7 +65,7 @@ module.exports = {
         embeds: [
           {
             description: `This command does not support playlists.\nUse **${client.prefix}play** instead.`,
-            color: 0xb84e44,
+            color: colors.red,
           },
         ],
         ephemeral: true,
@@ -73,7 +77,7 @@ module.exports = {
         embeds: [
           {
             description: `Queued **[${searchResult.tracks[0].title}](${searchResult.tracks[0].url})** at position **1**`,
-            color: 0x44b868,
+            color: colors.default,
           },
         ],
       };

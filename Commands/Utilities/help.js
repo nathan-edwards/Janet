@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
+const colors = require("../../assets/json/colors.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -16,7 +17,7 @@ module.exports = {
     ),
   async execute(interaction) {
     const embed = new MessageEmbed()
-      .setColor("#0099ff")
+      .setColor(colors.default)
       .setTitle("Help")
       .setDescription(
         "This is a list of commands that I can execute.\n\n" +

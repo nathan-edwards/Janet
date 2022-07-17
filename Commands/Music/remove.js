@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
+const colors = require("../../assets/json/colors.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -24,7 +25,7 @@ module.exports = {
 
     track = queue.remove(index - 1);
     const Response = new MessageEmbed()
-      .setColor("#6DB966")
+      .setColor(colors.default)
       .setDescription(
         `⏏️ Removed: [${track.title}](${track.url}) - ${track.author} [${track.duration}]`
       );

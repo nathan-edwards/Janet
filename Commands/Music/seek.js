@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
+const colors = require("../../assets/json/colors.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -27,7 +28,7 @@ module.exports = {
     await queue.seek(time * 1000);
 
     const Response = new MessageEmbed()
-      .setColor("#6DB966")
+      .setColor(colors.default)
       .setDescription(`⏩ Seeked to ${time}`);
 
     return interaction.reply({

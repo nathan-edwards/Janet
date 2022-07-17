@@ -1,5 +1,7 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
+const colors = require("../../assets/json/colors.json");
+
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -14,7 +16,7 @@ module.exports = {
     queue.shuffle();
 
     const Response = new MessageEmbed()
-      .setColor("#6DB966")
+      .setColor(colors.default)
       .setDescription("🔀 The queue has been shuffled!");
 
     return interaction.reply({

@@ -1,6 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-
-const colors = require("../lib/colors.json");
+const colors = require("../../assets/json/colors.json");
 const stack = require("error-stack-parser");
 
 module.exports = {

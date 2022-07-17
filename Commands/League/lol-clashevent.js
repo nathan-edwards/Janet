@@ -2,6 +2,8 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { PermissionFlagsBits } = require("discord-api-types/v10");
 const path = require("node:path");
 const riotAPI = require("../../API/riot-api");
+const colors = require("../../assets/json/colors.json");
+
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -64,7 +66,7 @@ module.exports = {
 
         const baseImagePath = path.resolve(
           process.cwd(),
-          "../../images/clash-splash/"
+          "./assets/clash-art"
         );
         interaction.guild.channels.fetch().then((channels) => {
           for (const [key, value] of channels.entries()) {
@@ -87,7 +89,7 @@ module.exports = {
                   privacyLevel: 2,
                   entityType: 2,
                   channel: key,
-                  image: `${baseImagePath}${data[0].nameKey}.jpg`,
+                  image: `${baseImagePath}/${data[0].nameKey}.jpg`,
                 });
                 interaction.guild.scheduledEvents.create({
                   name:
@@ -103,7 +105,7 @@ module.exports = {
                   privacyLevel: 2,
                   entityType: 2,
                   channel: value,
-                  image: `${baseImagePath}${data[0].nameKey}.jpg`,
+                  image: `${baseImagePath}/${data[0].nameKey}.jpg`,
                 });
               } else {
                 interaction.guild.scheduledEvents.create({
@@ -120,7 +122,7 @@ module.exports = {
                   privacyLevel: 2,
                   entityType: 2,
                   channel: value,
-                  image: `${baseImagePath}${data[0].nameKey}.jpg`,
+                  image: `${baseImagePath}/${data[0].nameKey}.jpg`,
                 });
               }
             }

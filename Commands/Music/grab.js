@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
+const colors = require("../../assets/json/colors.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -12,7 +13,7 @@ module.exports = {
         embeds: [
           {
             description: `There's nothing currently playing in the server.`,
-            color: 0xb84e44,
+            color: colors.red,
           },
         ],
         ephemeral: true,
@@ -20,7 +21,9 @@ module.exports = {
     }
 
     interaction.reply({
-      embeds: [{ description: `Sent a private interaction!`, color: 0x6db966 }],
+      embeds: [
+        { description: `Sent a private interaction!`, color: colors.default },
+      ],
       ephemeral: true,
     });
 
@@ -39,7 +42,7 @@ module.exports = {
           thumbnail: {
             url: `${queue.current.thumbnail}`,
           },
-          color: 0x6db966,
+          color: colors.default,
         },
       ],
     });

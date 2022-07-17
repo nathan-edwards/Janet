@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
+const colors = require("../../assets/json/colors.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -14,11 +15,11 @@ module.exports = {
       });
 
     const Response = new MessageEmbed()
-      .setColor("#6DB966")
+      .setColor(colors.default)
       .setDescription("🛑 Queue has been stopped and cleared!");
 
     const Response2 = new MessageEmbed()
-      .setColor("#6DB966")
+      .setColor(colors.default)
       .setDescription("👋 Disconnected.");
 
     if (queue) await queue.destroy(true);

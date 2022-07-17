@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { QueryType } = require("discord-player");
-const { MessageEmbed } = require("discord.js");
+const colors = require("../../assets/json/colors.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -17,7 +17,7 @@ module.exports = {
     if (!interaction.member.voice.channelId)
       return interaction.reply({
         embeds: [
-          { description: `You are not in a voice channel!`, color: 0xb84e44 },
+          { description: `You are not in a voice channel!`, color: colors.red },
         ],
         ephemeral: true,
         failIfNotExists: false,
@@ -29,7 +29,10 @@ module.exports = {
     )
       return interaction.reply({
         embeds: [
-          { description: `You are not in my voice channel!`, color: 0xb84e44 },
+          {
+            description: `You are not in my voice channel!`,
+            color: colors.red,
+          },
         ],
         ephemeral: true,
         failIfNotExists: false,
@@ -52,7 +55,7 @@ module.exports = {
     });
     if (!searchResult || !searchResult.tracks.length) {
       reply = {
-        embeds: [{ description: `No results found!`, color: 0xb84e44 }],
+        embeds: [{ description: `No results found!`, color: colors.red }],
         ephemeral: true,
         failIfNotExists: false,
       };
@@ -61,14 +64,14 @@ module.exports = {
     }
     const queue = await client.player.createQueue(interaction.guild, {
       metadata: { channel: interaction.channel },
-
+      initialVolume: 50,
       bufferingTimeout: 1000,
       disableVolume: false, // disabling volume controls can improve performance
       leaveOnEnd: true,
       leaveOnStop: true,
+      leaveOnEmpty: true,
+      leaveOnEmptyCooldown: 300000,
       spotifyBridge: true,
-      //leaveOnEmpty: true, // not working for now, discord-player issue
-      //leaveOnEmptyCooldown: 300000,
     });
     let justConnected;
     try {
@@ -82,7 +85,7 @@ module.exports = {
         embeds: [
           {
             description: `Could not join your voice channel!`,
-            color: 0xb84e44,
+            color: colors.red,
           },
         ],
         failIfNotExists: false,
@@ -96,7 +99,7 @@ module.exports = {
         embeds: [
           {
             description: `Queued **${searchResult.tracks.length}** tracks from [${searchResult.tracks[0].playlist.title}](${searchResult.tracks[0].playlist.url})`,
-            color: 0x6db966,
+            color: colors.default,
           },
         ],
         failIfNotExists: false,
@@ -107,7 +110,7 @@ module.exports = {
         embeds: [
           {
             description: `Queued **[${searchResult.tracks[0].title}](${searchResult.tracks[0].url})**`,
-            color: 0x6db966,
+            color: colors.default,
           },
         ],
         failIfNotExists: false,

@@ -1,15 +1,14 @@
 const { ContextMenuCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
+const colors = require("../../assets/json/colors.json");
 
 module.exports = {
-  data: new ContextMenuCommandBuilder()
-    .setName("userinfo")
-    .setType(2),
+  data: new ContextMenuCommandBuilder().setName("userinfo").setType(2),
   async execute(interaction) {
     const target = await interaction.guild.members.fetch(interaction.targetId);
 
     const Response = new MessageEmbed()
-      .setColor("#0099ff")
+      .setColor(colors.default)
       .setAuthor({
         name: target.user.tag,
         iconURL: target.avatarURL({ dynamic: true, size: 512 }),

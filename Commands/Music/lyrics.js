@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const colors = require("../../assets/json/colors.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -34,7 +34,7 @@ module.exports = {
                 : "No lyrics found for `" +
                   query +
                   "`. Try being more specific with your query!",
-              color: 0xb84e44,
+              color: colors.red,
             },
           ],
           ephemeral: true,
@@ -53,7 +53,7 @@ module.exports = {
                 url: result.thumbnail,
               },
               description: trimmedLyrics,
-              color: 0x6db966,
+              color: colors.default,
             },
           ],
         });
