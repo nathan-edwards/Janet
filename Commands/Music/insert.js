@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const colors = require("../../assets/json/colors.json");
 
 module.exports = {
@@ -31,9 +31,9 @@ module.exports = {
         ephemeral: true,
       });
     if (
-      interaction.guild.me.voice.channelId &&
+      interaction.guild.members.me.voice.channelId &&
       interaction.member.voice.channelId !==
-        interaction.guild.me.voice.channelId
+        interaction.guild.members.me.voice.channelId
     )
       return interaction.reply({
         embeds: [

@@ -1,28 +1,32 @@
 const {
-  MessageActionRow,
-  MessageButton,
+  ActionRowBuilder,
+  ButtonBuilder,
   CommandInteraction,
+  ButtonStyle,
 } = require("discord.js");
 
 module.exports = async (source, pages, options) => {
   const buttons = [
-    new MessageButton()
+    new ButtonBuilder()
       .setCustomId("first")
       .setLabel("<<")
-      .setStyle("SECONDARY")
+      .setStyle(ButtonStyle.Secondary)
       .setDisabled(true),
-    new MessageButton()
+    new ButtonBuilder()
       .setCustomId("previous")
       .setLabel("<")
-      .setStyle("SECONDARY")
+      .setStyle(ButtonStyle.Secondary)
       .setDisabled(true),
-    new MessageButton().setCustomId("next").setLabel(">").setStyle("SECONDARY"),
-    new MessageButton()
+    new ButtonBuilder()
+      .setCustomId("next")
+      .setLabel(">")
+      .setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
       .setCustomId("last")
       .setLabel(">>")
-      .setStyle("SECONDARY"),
+      .setStyle(ButtonStyle.Secondary),
   ];
-  const row = new MessageActionRow().addComponents(buttons);
+  const row = new ActionRowBuilder().addComponents(buttons);
 
   let currentPage = 0;
   let content = {

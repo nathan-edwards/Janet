@@ -63,7 +63,10 @@ module.exports = {
           return s.replace("_", " ");
         };
 
-        const baseImagePath = path.join(__dirname, "../../assets/img/clash-art");
+        const baseImagePath = path.join(
+          __dirname,
+          "../../assets/img/clash-art"
+        );
         interaction.guild.channels.fetch().then((channels) => {
           for (const [key, value] of channels.entries()) {
             if (value.name == "Clash") {
@@ -127,6 +130,7 @@ module.exports = {
         interaction.reply({
           content: "Clash Events Created",
           ephemeral: true,
+          
         });
       });
     } catch (error) {

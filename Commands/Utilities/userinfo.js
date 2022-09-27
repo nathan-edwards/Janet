@@ -1,5 +1,5 @@
 const { ContextMenuCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const colors = require("../../assets/json/colors.json");
 
 module.exports = {
@@ -7,33 +7,33 @@ module.exports = {
   async execute(interaction) {
     const target = await interaction.guild.members.fetch(interaction.targetId);
 
-    const Response = new MessageEmbed()
+    const Response = new EmbedBuilder()
       .setColor(colors.default)
       .setAuthor({
         name: target.user.tag,
         iconURL: target.avatarURL({ dynamic: true, size: 512 }),
       })
       .setThumbnail(target.user.avatarURL({ dynamic: true, size: 512 }))
-      .addField("ID", `${target.id}`)
-      .addField(
-        "Roles",
-        `${
-          target.roles.cache
-            .map((r) => r)
-            .join(" ")
-            .replace("@everyone", "") || "None"
-        }`
-      )
-      .addField(
-        "Member Since",
-        `<t:${parseInt(target.joinedTimestamp / 1000)}:R>`,
-        true
-      )
-      .addField(
-        "Account Created",
-        `<t:${parseInt(target.user.createdAt / 1000)}:R>`,
-        true
-      );
+      .addFields([
+        { name: "ID", value: `${target.id}` },
+        {
+          name: "Roles",
+          value: `${
+            target.roles.cache
+              .map((r) => r)
+              .join(" ")
+              .replace("@everyone", "") || "None"
+          }`,
+        },
+        {
+          name: "Member Since",
+          value: `<t:${parseInt(target.joinedTimestamp / 1000)}:R>`,
+        },
+        {
+          name: "Account Created",
+          value: `<t:${parseInt(target.user.createdAt / 1000)}:R>`,
+        },
+      ]);
 
     interaction.reply({ embeds: [Response], ephemeral: true });
   },

@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const generatePages = require("../../Utilities/embed-pages.js");
 const colors = require("../../assets/json/colors.json");
 
@@ -11,7 +11,7 @@ module.exports = {
     const queue = client.player.getQueue(message.guild);
     if (!queue || !queue.current) {
       if (_fromButton) return;
-      const embed = new MessageEmbed();
+      const embed = new EmbedBuilder();
       embed.setTitle("Server Queue");
       embed.setColor(colors.red);
       embed.setDescription(`No songs in the queue.`);
@@ -34,7 +34,7 @@ module.exports = {
         }]`;
       });
       if (tracks.length) {
-        const embed = new MessageEmbed();
+        const embed = new EmbedBuilder();
         embed.setDescription(`🎵 **Now Playing**\n[${queue.current.title}](${
           queue.current.url
         }) by ${queue.current.author} [${
@@ -58,7 +58,7 @@ module.exports = {
       } else {
         emptypage = true;
         if (page === 1) {
-          const embed = new MessageEmbed();
+          const embed = new EmbedBuilder();
           embed.setColor(colors.default);
           embed.setDescription(`${usedby}No more songs in the queue.`);
           const title = ["spotify-custom", "soundcloud-custom"].includes(

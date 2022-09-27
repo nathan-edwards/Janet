@@ -1,3 +1,4 @@
+const { EmbedBuilder } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { QueryType } = require("discord-player");
 const colors = require("../../assets/json/colors.json");
@@ -17,22 +18,23 @@ module.exports = {
     if (!interaction.member.voice.channelId)
       return interaction.reply({
         embeds: [
-          { description: `You are not in a voice channel!`, color: colors.red },
+          new EmbedBuilder()
+            .setColor(colors.red)
+            .setDescription(`You are not in a voice channel!`),
         ],
         ephemeral: true,
         failIfNotExists: false,
       });
     if (
-      interaction.guild.me.voice.channelId &&
+      interaction.guild.members.me.voice.channelId &&
       interaction.member.voice.channelId !==
-        interaction.guild.me.voice.channelId
+        interaction.guild.members.me.voice.channelId
     )
       return interaction.reply({
         embeds: [
-          {
-            description: `You are not in my voice channel!`,
-            color: colors.red,
-          },
+          new EmbedBuilder()
+            .setColor(colors.red)
+            .setDescription(`You are not in my voice channel!`),
         ],
         ephemeral: true,
         failIfNotExists: false,
@@ -40,7 +42,7 @@ module.exports = {
     if (!options.getString("query")) return;
 
     if (
-      !interaction.guild.me
+      !interaction.guild.members.me
         .permissionsIn(interaction.member.voice.channel)
         .has(client.requiredVoicePermissions)
     )
@@ -48,32 +50,31 @@ module.exports = {
 
     if (slash) await interaction.deferReply();
     let query = options.getString("query");
-    reply = {};
     const searchResult = await client.player.search(query, {
       requestedBy: slash ? interaction.user : interaction.author,
       searchEngine: QueryType.AUTO,
     });
+
     if (!searchResult || !searchResult.tracks.length) {
       reply = {
-        embeds: [{ description: `No results found!`, color: colors.red }],
+        embeds: [
+          new EmbedBuilder()
+            .setColor(colors.red)
+            .setDescription(`No results found!`),
+        ],
         ephemeral: true,
         failIfNotExists: false,
       };
       slash ? interaction.editReply(reply) : interaction.reply(reply);
       return;
     }
+
     const queue = await client.player.createQueue(interaction.guild, {
       metadata: { channel: interaction.channel },
-      initialVolume: 50,
-      bufferingTimeout: 1000,
-      disableVolume: false, // disabling volume controls can improve performance
-      leaveOnEnd: false,
-      leaveOnStop: true,
-      leaveOnEmpty: true,
-      leaveOnEmptyCooldown: 300000,
-      spotifyBridge: true,
     });
+
     let justConnected;
+
     try {
       if (!queue.connection) {
         justConnected = true;
@@ -83,10 +84,9 @@ module.exports = {
       client.player.deleteQueue(interaction.guild);
       reply = {
         embeds: [
-          {
-            description: `Could not join your voice channel!`,
-            color: colors.red,
-          },
+          new EmbedBuilder()
+            .setColor(colors.red)
+            .setDescription(`Could not join your voice channel!`),
         ],
         failIfNotExists: false,
       };
@@ -97,10 +97,11 @@ module.exports = {
     if (searchResult.playlist) {
       reply = {
         embeds: [
-          {
-            description: `Queued **${searchResult.tracks.length}** tracks from [${searchResult.tracks[0].playlist.title}](${searchResult.tracks[0].playlist.url})`,
-            color: colors.default,
-          },
+          new EmbedBuilder()
+            .setColor(colors.default)
+            .setDescription(
+              `Queued **${searchResult.tracks.length}** tracks from [${searchResult.tracks[0].playlist.title}](${searchResult.tracks[0].playlist.url})`
+            ),
         ],
         failIfNotExists: false,
       };
@@ -108,10 +109,11 @@ module.exports = {
     } else {
       reply = {
         embeds: [
-          {
-            description: `Queued **[${searchResult.tracks[0].title}](${searchResult.tracks[0].url})**`,
-            color: colors.default,
-          },
+          new EmbedBuilder()
+            .setColor(colors.default)
+            .setDescription(
+              `Queued **[${searchResult.tracks[0].title}](${searchResult.tracks[0].url})**`
+            ),
         ],
         failIfNotExists: false,
       };

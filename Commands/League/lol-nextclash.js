@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const dayjs = require("dayjs");
 const riotAPI = require("../../API/riot-api");
 const colors = require("../../assets/json/colors.json");
@@ -115,9 +115,9 @@ module.exports = {
                 ${String(dayjs(data[4].schedule[0].startTime))}`;
       }
 
-      const Embed = new MessageEmbed()
+      const Embed = new EmbedBuilder()
         .setColor(colors.default)
-        .addField(`Clash`, text1);
+        .addFields([{name: `Clash`, value: text1}]);
       interaction.reply({ embeds: [Embed] });
     });
   },

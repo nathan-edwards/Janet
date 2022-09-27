@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const request = require("request");
 const colors = require("../../assets/json/colors.json");
 
@@ -11,7 +11,7 @@ module.exports = {
     try {
       request("http://aws.random.cat/meow", function (error, body) {
         var result = JSON.parse(body.body);
-        let embed = new MessageEmbed()
+        let embed = new EmbedBuilder()
           .setColor(colors.default)
           .setImage(result.file)
           .setFooter({

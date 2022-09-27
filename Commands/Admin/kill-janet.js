@@ -1,17 +1,16 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { PermissionFlagsBits } = require("discord-api-types/v10");
 const {
   createAudioPlayer,
   createAudioResource,
   joinVoiceChannel,
 } = require("@discordjs/voice");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder, PermissionsBitField } = require("discord.js");
 const path = require("node:path");
 const colors = require("../../assets/json/colors.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
     .setName("kill-janet")
     .setDescription("Kill Janet."),
   async execute(interaction) {
@@ -35,7 +34,7 @@ module.exports = {
     //     // Unsubscribe after 5 seconds (stop playing audio on the voice connection)
     //     setTimeout(() => subscription.unsubscribe(), 5_000);
     //   }
-    //   const Response = new MessageEmbed()
+    //   const Response = new EmbedBuilder()
     //     .setColor(colors.red)
     //     .setTitle("ATTENTION! I have been murdered 😊")
     //     .setImage(
@@ -45,7 +44,7 @@ module.exports = {
     //     embeds: [Response],
     //   });
     // } else {
-    const Response = new MessageEmbed()
+    const Response = new EmbedBuilder()
       .setColor(colors.red)
       .setImage(
         "https://c.tenor.com/FZfzOwrrJWsAAAAC/janet-the-good-place.gif"

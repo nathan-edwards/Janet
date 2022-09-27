@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const colors = require("../../assets/json/colors.json");
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
 
     queue.setPaused(false);
 
-    const Response = new MessageEmbed()
+    const Response = new EmbedBuilder()
       .setColor(colors.default)
       .setDescription("▶️ Resumed the current song!");
 

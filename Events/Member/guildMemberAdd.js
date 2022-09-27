@@ -1,4 +1,4 @@
-const { MessageEmbed, WebhookClient, GuildMember } = require("discord.js");
+const { EmbedBuilder, WebhookClient, GuildMember } = require("discord.js");
 
 module.exports = {
   name: "guildMemberAdd",

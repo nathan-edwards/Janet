@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const colors = require("../../assets/json/colors.json");
 
 module.exports = {
@@ -48,15 +48,17 @@ module.exports = {
     const name = options.getString("name");
     const desc = options.getString("description");
 
-    const Response = new MessageEmbed()
+    const Response = new EmbedBuilder()
       .setColor(colors.default)
       .setDescription(`${interaction.member} has suggest a ${type}.`)
       .setFooter({
         text: `${interaction.member.user.tag}`,
         iconURL: `${interaction.member.user.avatarURL()}`,
       })
-      .addField("Name", `${name}`, true)
-      .addField("Description", `${desc}`, true);
+      .addFields([
+        { name: "Name", value: `${name}` },
+        { name: "Description", value: `${desc}` },
+      ]);
     const message = await interaction.channel.send({
       embeds: [Response],
       fetchReply: true,

@@ -18,7 +18,7 @@ module.exports = async (client, PG, Ascii) => {
           return;
         }
 
-        if (event.once || event === "DistubeEvents") {
+        if (event.once) {
           client.once(event.name, (...args) => event.execute(...args, client));
         } else {
           client.on(event.name, (...args) => event.execute(...args, client));

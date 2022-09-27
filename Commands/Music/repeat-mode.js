@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { QueueRepeatMode } = require("discord-player");
 const colors = require("../../assets/json/colors.json");
 
@@ -40,7 +40,7 @@ module.exports = {
         queue.setRepeatMode(QueueRepeatMode.AUTOPLAY);
     }
 
-    const Response = new MessageEmbed()
+    const Response = new EmbedBuilder()
       .setColor(colors.default)
       .setDescription(` Repeat mode has been set to ${mode}`);
 

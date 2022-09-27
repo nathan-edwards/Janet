@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const colors = require("../../assets/json/colors.json");
 
 module.exports = {
@@ -32,7 +32,7 @@ module.exports = {
 
     queue.setVolume(volumePercentage);
 
-    const Response = new MessageEmbed()
+    const Response = new EmbedBuilder()
       .setColor(colors.default)
       .setDescription(`🔊 Volume has been set to ${volumePercentage}%!`);
 

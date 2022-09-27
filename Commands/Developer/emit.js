@@ -1,12 +1,11 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { PermissionFlagsBits } = require("discord-api-types/v10");
-const { Permissions } = require("discord.js");
+const { PermissionsBitField } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("emit")
     .setDescription("Event emitter.")
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
     .addStringOption((option) =>
       option
         .setName("event")
@@ -20,7 +19,7 @@ module.exports = {
   execute(interaction) {
     const { options } = interaction;
     const event = options.getString("event");
-    if (interaction.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+    if (interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
       switch (event) {
         case "guildMemberAdd": {
           interaction.client.emit("guildMemberAdd", interaction.member);

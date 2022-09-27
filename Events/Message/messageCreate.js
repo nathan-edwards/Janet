@@ -6,7 +6,7 @@ module.exports = {
     if (!interaction.content.startsWith(client.prefix)) return;
 
     if (
-      !interaction.guild.me
+      !interaction.guild.members.me
         .permissionsIn(interaction.channel)
         .has(client.requiredTextPermissions)
     )
