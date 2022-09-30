@@ -18,7 +18,7 @@ module.exports = {
   async execute(interaction) {
     const embed = new EmbedBuilder()
       .setColor(colors.default)
-      .setTitle("Help")
+      .setTitle("❔ Help")
       .setDescription(
         "This is a list of commands that I can execute.\n\n" +
           "To get more information about a command, use `help <command>`."

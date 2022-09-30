@@ -16,14 +16,13 @@ module.exports = {
 
     const Response = new EmbedBuilder()
       .setColor(colors.default)
-      .setDescription("🛑 Queue has been stopped and cleared!");
+      .setTitle("🛑 Queue has been stopped and cleared!");
 
     const Response2 = new EmbedBuilder()
       .setColor(colors.default)
-      .setDescription("👋 Disconnected.");
+      .setTitle("👋 Disconnected.");
 
-    if (queue) await queue.destroy(true);
-    interaction.guild.members.me.voice.disconnect();
+    if (queue) await client.player.stop(interaction.guildId);
     return interaction.reply({
       embeds: [Response, Response2],
     });

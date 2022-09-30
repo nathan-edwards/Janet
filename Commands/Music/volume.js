@@ -30,11 +30,11 @@ module.exports = {
         content: "The volume must be betweeen 1 and 100",
       });
 
-    queue.setVolume(volumePercentage);
+    client.player.setVolume(interaction.guildId, volumePercentage);
 
     const Response = new EmbedBuilder()
       .setColor(colors.default)
-      .setDescription(`🔊 Volume has been set to ${volumePercentage}%!`);
+      .setTitle(`🔊 Volume has been set to ${volumePercentage}%!`);
 
     return interaction.reply({
       embeds: [Response],

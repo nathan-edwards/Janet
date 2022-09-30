@@ -13,18 +13,19 @@ module.exports = {
         content: "No music is currently being played",
       });
 
-    const progress = queue.createProgressBar();
-    const perc = queue.getPlayerTimestamp();
+    // const progress = queue.createProgressBar();
+    // const perc = queue.getPlayerTimestamp();
     let next;
-    if (!queue.tracks[0]) {
+    if (!queue.songs[1]) {
       next = "There are no songs queued";
     } else {
-      next = `${queue.tracks[0].author} - ${queue.tracks[0].title}`;
+      next = `[${queue.songs[1].name}](${queue.songs[1].url}) - ${queue.songs[1].uploader.name}`;
     }
-    let repeatMode;
-    switch (queue.repeatMode) {
+
+    let repeatMode = queue.repeatMode;
+    switch (repeatMode) {
       case 0:
-        repeatMode = "None";
+        repeatMode = "Disabled";
         break;
       case 1:
         repeatMode = "Track";
@@ -32,25 +33,22 @@ module.exports = {
       case 2:
         repeatMode = "Queue";
         break;
-      case 3:
-        repeatMode = "Autoplay";
-        break;
     }
 
     const Response = new EmbedBuilder()
       .setColor(colors.default)
+      .setTitle("🎵 Now Playing")
+      .setDescription(
+        `[${queue.songs[0].name}](${queue.songs[0].url}) - ${queue.songs[0].uploader.name}`
+      )
       .addFields([
-        {
-          name: "🎵 Now Playing:",
-          value: `${queue.current.title} - ${queue.current.author}`,
-        },
-        {
-          name: "Progress:",
-          value: progress,
-        },
+        // {
+        //   name: "Progress:",
+        //   value: progress,
+        // },
         {
           name: "Requested by:",
-          value: `${queue.current.requestedBy}`,
+          value: `${queue.songs[0].user}`,
         },
         {
           name: "Next Up:",
@@ -66,7 +64,7 @@ module.exports = {
         iconURL: `${interaction.member.user.avatarURL()}`,
       })
       .setTimestamp()
-      .setThumbnail(queue.current.thumbnail);
+      .setThumbnail(queue.songs[0].thumbnail);
 
     return interaction.reply({
       embeds: [Response],

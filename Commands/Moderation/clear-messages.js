@@ -46,7 +46,7 @@ module.exports = {
       });
     } else {
       await channel.bulkDelete(amount, true).then((messages) => {
-        Response.setDescription(`🧹 Deleted ${messages.size} messages`);
+        Response.setTitle(`🧹 Deleted ${messages.size} messages`);
         interaction.reply({ embeds: [Response], ephemeral: true });
       });
     }

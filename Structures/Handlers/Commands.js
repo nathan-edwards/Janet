@@ -4,7 +4,7 @@ const { Routes } = require("discord-api-types/v9");
 const fs = require("fs");
 const { Perms } = require("../Validation/Permissions");
 
-module.exports = async (client, PG, Ascii) => {
+module.exports = async (client, Ascii) => {
   client.handleCommands = async (commandFolders, path) => {
     const Table = new Ascii("Commands Loaded");
     client.commandArray = [];

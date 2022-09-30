@@ -10,7 +10,7 @@ module.exports = {
     const Response = new EmbedBuilder()
       .setColor(colors.default)
       .setAuthor({
-        name: target.user.tag,
+        name: `👤${target.user.tag}`,
         iconURL: target.avatarURL({ dynamic: true, size: 512 }),
       })
       .setThumbnail(target.user.avatarURL({ dynamic: true, size: 512 }))

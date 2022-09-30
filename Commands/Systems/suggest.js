@@ -50,7 +50,8 @@ module.exports = {
 
     const Response = new EmbedBuilder()
       .setColor(colors.default)
-      .setDescription(`${interaction.member} has suggest a ${type}.`)
+      .setTitle("📝 New Suggestion")
+      .setDescription(`${interaction.member} has suggested a ${type}.`)
       .setFooter({
         text: `${interaction.member.user.tag}`,
         iconURL: `${interaction.member.user.avatarURL()}`,

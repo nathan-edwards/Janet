@@ -9,16 +9,16 @@ module.exports = {
   async execute(interaction, client) {
     const queue = client.player.getQueue(interaction.guildId);
 
-    if (!queue?.playing)
+    if (!queue)
       return interaction.reply({
         content: "No music is currently being played",
       });
 
-    queue.skip();
+    client.player.skip(interaction.guildId);
 
     const Response = new EmbedBuilder()
       .setColor(colors.default)
-      .setDescription("⏭️ Skipped the current song!");
+      .setTitle("⏭️ Skipped the current song!");
 
     return interaction.reply({
       embeds: [Response],

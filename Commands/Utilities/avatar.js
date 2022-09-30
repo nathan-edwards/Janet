@@ -8,7 +8,7 @@ module.exports = {
     const target = await interaction.guild.members.fetch(interaction.targetId);
     const Response = new EmbedBuilder()
       .setColor(colors.default)
-      .setTitle(`${target.user.tag}'s Avatar`)
+      .setTitle(`👤 ${target.user.tag}'s Avatar`)
       .setImage(target.user.avatarURL({ dynamic: true, size: 512 }));
     interaction.reply({ embeds: [Response], ephemeral: true });
   },

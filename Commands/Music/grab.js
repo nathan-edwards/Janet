@@ -7,7 +7,7 @@ module.exports = {
     .setName("grab")
     .setDescription("Grabs the current song"),
   async execute(interaction, client) {
-    const queue = client.player.getQueue(interaction.guild);
+    const queue = client.player.getQueue(interaction.guildId);
     if (!queue || !queue.playing) {
       return interaction.reply({
         embeds: [
@@ -20,31 +20,32 @@ module.exports = {
       });
     }
 
+    const Response1 = new EmbedBuilder()
+      .setColor(colors.default)
+      .setTitle(`Sent a DM with the current song!`);
+
     interaction.reply({
-      embeds: [
-        { description: `Sent a private interaction!`, color: colors.default },
-      ],
+      embeds: [Response1],
       ephemeral: true,
     });
 
-    let playlist = "";
-    if (queue.current.playlist)
-      playlist = ` ┃ From: [${queue.current.playlist.title}](${queue.current.playlist.url})`;
     if (interaction.author == undefined) {
       interaction.author = interaction.user;
     }
+
+    const track = queue.songs[0];
+
+    const Response2 = new EmbedBuilder()
+      .setColor(colors.default)
+      .setTitle(`⏏️ Song Grabbed!`)
+      .setDescription(
+        `**[${track.name}](${track.url})**\nby [${track.uploader.name}](${track.uploader.url})\n\n` +
+          `${track.formattedDuration} | Queued by ${track.member}`
+      )
+      .setThumbnail(track.thumbnail);
+
     return interaction.author.send({
-      embeds: [
-        {
-          description:
-            `**[${queue.current.title}](${queue.current.url})**\nby ${queue.current.author}\n\n` +
-            `${queue.current.duration}${playlist}`,
-          thumbnail: {
-            url: `${queue.current.thumbnail}`,
-          },
-          color: colors.default,
-        },
-      ],
+      embeds: [Response2],
     });
   },
 };

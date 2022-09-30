@@ -19,6 +19,7 @@ module.exports = {
 
     const Embed = new EmbedBuilder()
       .setColor(colors.default)
+      .setTitle(`📝 ${guild.name}`)
       .setAuthor({
         name: guild.name,
         iconURL: guild.iconURL({ dynamic: true, size: 512 }),

@@ -1,43 +1,59 @@
 require("dotenv").config();
-const { Client, Collection } = require("discord.js");
-const client = new Client({ intents: 32767 });
-const { Player } = require("discord-player");
-const { Lyrics } = require("@discord-player/extractor");
-
-const { promisify } = require("util");
-const { glob } = require("glob");
+const {
+  Client,
+  Collection,
+  Partials,
+  GatewayIntentBits,
+} = require("discord.js");
+const { DisTube } = require("distube");
+const { SpotifyPlugin } = require("@distube/spotify");
+const { SoundCloudPlugin } = require("@distube/soundcloud");
+const { YtDlpPlugin } = require("@distube/yt-dlp");
 const Ascii = require("ascii-table");
 const fs = require("fs");
-const PG = promisify(glob);
-
-client.commands = new Collection();
-
-client.player = new Player(client, {
-  initialVolume: 50,
-  bufferingTimeout: 1000,
-  disableVolume: false, // disabling volume controls can improve performance
-  leaveOnEnd: true,
-  leaveOnStop: true,
-  // leaveOnEmpty: true,  // Issue due to discord-player
-  // leaveOnEmptyCooldown: 60000,
-  spotifyBridge: true,
-  ytdlOptions: {
-    quality: "highestaudio",
-    highWaterMark: 1 << 25,
-  },
+const client = new Client({
+  partials: [
+    Partials.Channel, // for text channel
+    Partials.GuildMember, // for guild member
+    Partials.User, // for discord user
+  ],
+  intents: [
+    GatewayIntentBits.Guilds, // for guild related things
+    GatewayIntentBits.GuildMembers, // for guild members related things
+    GatewayIntentBits.GuildIntegrations, // for discord Integrations
+    GatewayIntentBits.GuildVoiceStates, // for voice related things
+  ],
 });
 
-client.lyrics = Lyrics.init(process.env.GENIUS_TOKEN);
+client.commands = new Collection();
+client.player = new DisTube(client, {
+  leaveOnStop: false,
+  leaveOnFinish: false,
+  emitNewSongOnly: true,
+  emitAddSongWhenCreatingQueue: false,
+  emitAddListWhenCreatingQueue: false,
+  plugins: [
+    new SpotifyPlugin({
+      emitEventsAfterFetching: true,
+    }),
+    new SoundCloudPlugin(),
+    new YtDlpPlugin({ update: true }),
+  ],
+});
+
+const player = client.player;
 
 module.exports = client;
 
+// const buttonFolders = fs.readdirSync("./Commands");
 const commandFolders = fs.readdirSync("./Commands");
 const eventFolders = fs.readdirSync("./Events");
 (async () => {
   ["Events", "Commands"].forEach((handler) => {
-    require(`./Handlers/${handler}`)(client, PG, Ascii);
+    require(`./Handlers/${handler}`)(client, Ascii);
   });
   client.handleCommands(commandFolders, "./Commands");
   client.handleEvents(eventFolders, "./Events");
+  // client.handleButtons(buttonFolders, "./Buttons");
   client.login(process.env.TOKEN);
 })();

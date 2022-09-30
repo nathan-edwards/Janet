@@ -40,7 +40,7 @@ module.exports = async (source, pages, options) => {
 
   const message = options.fromButton
     ? await source.channel.send(content)
-    : await source.reply(content);
+    : await source.editReply(content);
   const pagedMessage =
     source instanceof CommandInteraction && !options.fromButton
       ? await source.fetchReply()

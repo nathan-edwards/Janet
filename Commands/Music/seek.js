@@ -16,6 +16,8 @@ module.exports = {
     const { options } = interaction;
     const time = options.getNumber("time");
 
+    await interaction.deferReply();
+
     const queue = client.player.getQueue(interaction.guildId);
 
     if (!queue?.playing)
@@ -23,15 +25,22 @@ module.exports = {
         content: "No music is currently being played",
       });
 
-    if (!queue || !queue.playing || !time) return;
-    if (time * 1000 >= queue.current.durationMS) return message.react("❌");
-    await queue.seek(time * 1000);
+    if (time >= queue.songs[0].duration)
+      return message.editReply([
+        new EmbedBuilder()
+          .setColor(colors.red)
+          .setDescription(
+            "You can't seek to a time that is longer than the song's duration!"
+          ),
+      ]);
+
+    await client.player.seek(interaction.guildId, time);
 
     const Response = new EmbedBuilder()
       .setColor(colors.default)
-      .setDescription(`⏩ Seeked to ${time}`);
+      .setTitle(`⏩ Seeked to ${time}`);
 
-    return interaction.reply({
+    return interaction.editReply({
       embeds: [Response],
     });
   },
