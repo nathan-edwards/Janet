@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const colors = require("../../assets/json/colors.json");
 
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
       option
         .setName("song")
         .setRequired(true)
-        .setDescription("The song to insert")
+        .setDescription("The song to search for")
     )
     .addNumberOption((option) =>
       option
@@ -21,7 +21,7 @@ module.exports = {
   async execute(interaction, client) {
     const { options } = interaction;
     const position = options.getNumber("position");
-    const song = options.getString("song");
+    const query = options.getString("song");
 
     if (!interaction.member.voice.channelId)
       return interaction.reply({
@@ -31,9 +31,9 @@ module.exports = {
         ephemeral: true,
       });
     if (
-      interaction.guild.me.voice.channelId &&
+      interaction.guild.members.me.voice.channelId &&
       interaction.member.voice.channelId !==
-        interaction.guild.me.voice.channelId
+        interaction.guild.members.me.voice.channelId
     )
       return interaction.reply({
         embeds: [
@@ -45,44 +45,34 @@ module.exports = {
         ephemeral: true,
       });
 
-    const queue = client.player.getQueue(interaction.guild);
-    if (!queue || !song) return;
-
-    if (slash) await interaction.deferReply();
-    let query = song,
-      reply = {};
-    const searchResult = await client.player.search(query, {
-      requestedBy: slash ? interaction.user : interaction.author,
-      searchEngine: "dodong",
+    await client.player.play(interaction.member.voice.channel, query, {
+      member: interaction.member,
+      textChannel: interaction.channel,
+      position: position,
+      interaction,
     });
-    if (!searchResult || !searchResult.tracks.length - 1)
-      reply = {
-        embeds: [{ description: `No results found!`, color: colors.red }],
-        ephemeral: true,
-      };
-    else if (searchResult.playlist)
-      reply = {
-        embeds: [
-          {
-            description: `This command does not support playlists.\nUse **${client.prefix}play** instead.`,
-            color: colors.red,
-          },
-        ],
-        ephemeral: true,
-      };
-    else {
-      queue.insert(searchResult.tracks[0], position);
 
-      reply = {
-        embeds: [
-          {
-            description: `Queued **[${searchResult.tracks[0].title}](${searchResult.tracks[0].url})** at position **1**`,
-            color: colors.default,
-          },
-        ],
-      };
-    }
-    if (slash) interaction.editReply(reply);
-    else interaction.reply(reply);
+    if (!(await client.player.getQueue(interaction.guildId))) return;
+
+    const queue = await client.player.getQueue(interaction.guildId);
+    const track = queue.songs[position];
+
+    const Response = new EmbedBuilder()
+      .setColor(colors.default)
+      .setTitle(`🎶 Inserted`)
+      .setDescription(
+        `**[${track.name}](${track.url})** by **${track.uploader.name}** at position **${position}**`
+      )
+      .setFooter({
+        text: `${interaction.member.user.tag} `,
+        iconURL: `${interaction.member.user.avatarURL()}`,
+      })
+      .setTimestamp()
+      .setThumbnail(track.thumbnail);
+
+    reply = {
+      embeds: [Response],
+    };
+    interaction.reply(reply);
   },
 };

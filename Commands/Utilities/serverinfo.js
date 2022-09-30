@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const colors = require("../../assets/json/colors.json");
 
 module.exports = {
@@ -17,8 +17,9 @@ module.exports = {
       channels,
     } = guild;
 
-    const Embed = new MessageEmbed()
+    const Embed = new EmbedBuilder()
       .setColor(colors.default)
+      .setTitle(`📝 ${guild.name}`)
       .setAuthor({
         name: guild.name,
         iconURL: guild.iconURL({ dynamic: true, size: 512 }),

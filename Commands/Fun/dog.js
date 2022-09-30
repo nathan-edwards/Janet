@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const request = require("request");
 const colors = require("../../assets/json/colors.json");
 
@@ -13,7 +13,7 @@ module.exports = {
         "https://dog.ceo/api/breeds/image/random",
         function (error, body) {
           var result = JSON.parse(body.body);
-          let embed = new MessageEmbed()
+          let embed = new EmbedBuilder()
             .setColor(colors.default)
             .setImage(result.message)
             .setFooter({

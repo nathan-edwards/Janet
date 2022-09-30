@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { PermissionFlagsBits } = require("discord-api-types/v10");
 const { connection } = require("mongoose");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder, PermissionsBitField } = require("discord.js");
 const colors = require("../../assets/json/colors.json");
 
 require("../../Events/Client/ready");
@@ -10,9 +9,9 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("status")
     .setDescription("Shows the status of the bot")
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+    .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
   async execute(interaction, client) {
-    const Response = new MessageEmbed()
+    const Response = new EmbedBuilder()
       .setColor(colors.default)
       .setDescription(
         `**Client**: \`🟢 Online\` - \`${

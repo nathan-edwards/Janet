@@ -1,20 +1,21 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const colors = require("../../assets/json/colors.json");
 const stack = require("error-stack-parser");
 
 module.exports = {
   embedError: function (err, lang, message) {
-    let embed = new MessageEmbed()
+    let embed = new EmbedBuilder()
       .setTitle(`❌ ${lang.ErrorOccurred}`)
       .setColor(colors.red)
-      .addField("Error", `\`${err}\``, true)
-      .addField(
-        "Location",
-        `\`${stack.parse(err)[0].fileName}:${stack.parse(err)[0].lineNumber}:${
-          stack.parse(err)[0].columnNumber
-        }\``,
-        true
-      )
+      .addFields([
+        { name: "Error", value: `\`${err}\`` },
+        {
+          name: "Location",
+          value: `\`${stack.parse(err)[0].fileName}:${
+            stack.parse(err)[0].lineNumber
+          }:${stack.parse(err)[0].columnNumber}\``,
+        },
+      ])
       .setTimestamp();
 
     message.channel
@@ -25,17 +26,18 @@ module.exports = {
   },
   embedInvalidSyntax: function (err, lang, message) {
     // Coming soon tm
-    let embed = new MessageEmbed()
+    let embed = new EmbedBuilder()
       .setTitle(`❌ ${lang.ErrorOccurred}`)
       .setColor(colors.red)
-      .addField("Error2", `\`${err}\``, true)
-      .addField(
-        "Location",
-        `\`${stack.parse(err)[0].fileName}:${stack.parse(err)[0].lineNumber}:${
-          stack.parse(err)[0].columnNumber
-        }\``,
-        true
-      )
+      .addFields([
+        { name: "Error2", value: `\`${err}\`` },
+        {
+          name: "Location",
+          value: `\`${stack.parse(err)[0].fileName}:${
+            stack.parse(err)[0].lineNumber
+          }:${stack.parse(err)[0].columnNumber}\``,
+        },
+      ])
       .setTimestamp();
 
     message.channel

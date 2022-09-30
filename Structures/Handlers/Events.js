@@ -1,12 +1,17 @@
+const fs = require('fs');
 const { Events } = require("../Validation/EventNames");
 
-module.exports = async (client, PG, Ascii) => {
+module.exports = async (client, Ascii) => {
   client.handleEvents = async () => {
     const Table = new Ascii("Events Loaded");
 
-    (await PG(`${process.cwd().replace(/\\/g, "/")}/Events/**/*.js`)).map(
-      async (file) => {
-        const event = require(file);
+    fs.readdirSync("./Events/").forEach(async (dir) => {
+      const files = fs
+        .readdirSync(`./Events/${dir}/`)
+        .filter((file) => file.endsWith(".js"));
+
+      for (const file of files) {
+        const event = require(`../../Events/${dir}/${file}`);
 
         if (!Events.includes(event.name) || !event.name) {
           const L = file.split("/");
@@ -18,7 +23,7 @@ module.exports = async (client, PG, Ascii) => {
           return;
         }
 
-        if (event.once || event === "DistubeEvents") {
+        if (event.once) {
           client.once(event.name, (...args) => event.execute(...args, client));
         } else {
           client.on(event.name, (...args) => event.execute(...args, client));
@@ -26,7 +31,7 @@ module.exports = async (client, PG, Ascii) => {
 
         await Table.addRow(`${event.name}`, `✅ LOADED`);
       }
-    );
+    });
 
     console.log(Table.toString());
   };

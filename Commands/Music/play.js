@@ -1,5 +1,5 @@
+const { EmbedBuilder } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { QueryType } = require("discord-player");
 const colors = require("../../assets/json/colors.json");
 
 module.exports = {
@@ -8,117 +8,97 @@ module.exports = {
     .setDescription("Plays a song")
     .addStringOption((option) =>
       option
-        .setName("query")
+        .setName("song")
         .setDescription("The query to search for")
         .setRequired(true)
     ),
-  async execute(interaction, client, slash) {
+  async execute(interaction, client) {
     const { options } = interaction;
+    const query = options.getString("song");
     if (!interaction.member.voice.channelId)
       return interaction.reply({
         embeds: [
-          { description: `You are not in a voice channel!`, color: colors.red },
+          new EmbedBuilder()
+            .setColor(colors.red)
+            .setDescription(`You are not in a voice channel!`),
         ],
         ephemeral: true,
         failIfNotExists: false,
       });
+
     if (
-      interaction.guild.me.voice.channelId &&
+      interaction.guild.members.me.voice.channelId &&
       interaction.member.voice.channelId !==
-        interaction.guild.me.voice.channelId
+        interaction.guild.members.me.voice.channelId
     )
       return interaction.reply({
         embeds: [
-          {
-            description: `You are not in my voice channel!`,
-            color: colors.red,
-          },
+          new EmbedBuilder()
+            .setColor(colors.red)
+            .setDescription(`You are not in my voice channel!`),
         ],
         ephemeral: true,
         failIfNotExists: false,
       });
-    if (!options.getString("query")) return;
+    if (!query) return;
 
     if (
-      !interaction.guild.me
+      !interaction.guild.members.me
         .permissionsIn(interaction.member.voice.channel)
         .has(client.requiredVoicePermissions)
     )
       return;
 
-    if (slash) await interaction.deferReply();
-    let query = options.getString("query");
-    reply = {};
-    const searchResult = await client.player.search(query, {
-      requestedBy: slash ? interaction.user : interaction.author,
-      searchEngine: QueryType.AUTO,
-    });
-    if (!searchResult || !searchResult.tracks.length) {
-      reply = {
-        embeds: [{ description: `No results found!`, color: colors.red }],
-        ephemeral: true,
-        failIfNotExists: false,
-      };
-      slash ? interaction.editReply(reply) : interaction.reply(reply);
-      return;
-    }
-    const queue = await client.player.createQueue(interaction.guild, {
-      metadata: { channel: interaction.channel },
-      initialVolume: 50,
-      bufferingTimeout: 1000,
-      disableVolume: false, // disabling volume controls can improve performance
-      leaveOnEnd: false,
-      leaveOnStop: true,
-      leaveOnEmpty: true,
-      leaveOnEmptyCooldown: 300000,
-      spotifyBridge: true,
-    });
-    let justConnected;
-    try {
-      if (!queue.connection) {
-        justConnected = true;
-        await queue.connect(interaction.member.voice.channel);
-      }
-    } catch {
-      client.player.deleteQueue(interaction.guild);
-      reply = {
-        embeds: [
-          {
-            description: `Could not join your voice channel!`,
-            color: colors.red,
-          },
-        ],
-        failIfNotExists: false,
-      };
-      slash ? interaction.editReply(reply) : interaction.reply(reply);
-      return;
+    await interaction.deferReply();
+
+    let currentQueueLen;
+
+    const currentQueue = await client.player.getQueue(interaction.guildId);
+    if (currentQueue) {
+      currentQueueLen = currentQueue.songs.length;
     }
 
-    if (searchResult.playlist) {
-      reply = {
-        embeds: [
-          {
-            description: `Queued **${searchResult.tracks.length}** tracks from [${searchResult.tracks[0].playlist.title}](${searchResult.tracks[0].playlist.url})`,
-            color: colors.default,
-          },
-        ],
-        failIfNotExists: false,
-      };
-      queue.addTracks(searchResult.tracks);
-    } else {
-      reply = {
-        embeds: [
-          {
-            description: `Queued **[${searchResult.tracks[0].title}](${searchResult.tracks[0].url})**`,
-            color: colors.default,
-          },
-        ],
-        failIfNotExists: false,
-      };
-      queue.addTrack(searchResult.tracks[0]);
-    }
-    slash ? interaction.editReply(reply) : interaction.reply(reply);
+    await client.player.play(interaction.member.voice.channel, query, {
+      member: interaction.member,
+      textChannel: interaction.channel,
+      interaction,
+    });
 
-    if (justConnected) queue.play();
+    const newQueue = await client.player.getQueue(interaction.guildId);
+    const newQueueLen = newQueue.songs.length;
+    let diff;
+    let diffText;
+
+    let track;
+    if (!currentQueue && newQueue) {
+      track = newQueue.songs[0];
+      diff = newQueue.songs.length;
+    } else if (currentQueue && newQueue) {
+      diff = Math.abs(currentQueueLen - newQueueLen);
+      track = newQueue.songs[currentQueueLen];
+    }
+
+    if (diff == 1) {
+      diffText = ``;
+    } else if (diff == 2) {
+      diffText = ` + 1 track`;
+    } else if (diff > 2) {
+      diffText = ` + ${diff - 1} tracks`;
+    }
+
+    const Response = new EmbedBuilder()
+      .setColor(colors.default)
+      .setTitle(`🎶 Queued`)
+      .setDescription(
+        `**[${track.name}](${track.url})** by **${track.uploader.name}** \n${diffText}`
+      )
+      .setFooter({
+        text: `${interaction.member.user.tag} `,
+        iconURL: `${interaction.member.user.avatarURL()}`,
+      })
+      .setTimestamp()
+      .setThumbnail(track.thumbnail);
+
+    return interaction.editReply({ embeds: [Response] });
   },
 };

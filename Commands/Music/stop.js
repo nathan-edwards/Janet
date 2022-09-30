@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const colors = require("../../assets/json/colors.json");
 
 module.exports = {
@@ -14,16 +14,15 @@ module.exports = {
         content: "No music is currently being played",
       });
 
-    const Response = new MessageEmbed()
+    const Response = new EmbedBuilder()
       .setColor(colors.default)
-      .setDescription("🛑 Queue has been stopped and cleared!");
+      .setTitle("🛑 Queue has been stopped and cleared!");
 
-    const Response2 = new MessageEmbed()
+    const Response2 = new EmbedBuilder()
       .setColor(colors.default)
-      .setDescription("👋 Disconnected.");
+      .setTitle("👋 Disconnected.");
 
-    if (queue) await queue.destroy(true);
-    interaction.guild.me.voice.disconnect();
+    if (queue) await client.player.stop(interaction.guildId);
     return interaction.reply({
       embeds: [Response, Response2],
     });

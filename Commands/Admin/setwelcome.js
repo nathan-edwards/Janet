@@ -1,12 +1,12 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { PermissionFlagsBits } = require("discord-api-types/v10");
+const { PermissionsBitField } = require("discord.js");
 const welcomeSchema = require("../../Models/welcome-schema");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("setwelcome")
     .setDescription("Set the welcome message for the server.")
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
     .addChannelOption((option) =>
       option
         .setName("channel")

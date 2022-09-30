@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const colors = require("../../assets/json/colors.json");
 
 module.exports = {
@@ -12,11 +12,11 @@ module.exports = {
     if (!queue)
       return await interaction.reply("There are no songs in the queue");
 
-    queue.clear();
+    queue.stop(interaction.guildId);
 
-    const Response = new MessageEmbed()
+    const Response = new EmbedBuilder()
       .setColor(colors.default)
-      .setDescription("🧹 Queue has been cleared!");
+      .setTitle("🧹 Queue has been cleared!");
 
     return interaction.reply({
       embeds: [Response],
