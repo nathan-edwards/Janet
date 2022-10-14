@@ -37,7 +37,7 @@ module.exports = {
 
     const Response2 = new EmbedBuilder()
       .setColor(colors.default)
-      .setTitle(`⏏️ Song Grabbed!`)
+      .setTitle(`⏏️ Song Grabbed`)
       .setDescription(
         `**[${track.name}](${track.url})**\nby [${track.uploader.name}](${track.uploader.url})\n\n` +
           `${track.formattedDuration} | Queued by ${track.member}`

@@ -9,16 +9,18 @@ module.exports = {
   async execute(interaction, client) {
     const queue = client.player.getQueue(interaction.guildId);
 
-    if (!queue)
+    const Response = new EmbedBuilder();
+
+    if (!queue) {
+      Response.setTitle("🛑 There is no music playing!").setColor(colors.red);
       return interaction.reply({
-        content: "No music is currently being played",
+        embeds: [Response],
       });
+    }
 
     client.player.pause(interaction.guildId);
 
-    const Response = new EmbedBuilder()
-      .setColor(colors.default)
-      .setTitle("⏸️ Paused the current song!");
+    Response.setColor(colors.default).setTitle("⏸️ Paused the current song!");
 
     return interaction.reply({
       embeds: [Response],

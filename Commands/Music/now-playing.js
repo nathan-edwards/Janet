@@ -55,7 +55,7 @@ module.exports = {
           value: `${next}`,
         },
         {
-          name: "Settings",
+          name: "Settings:",
           value: `Volume: ${queue.volume}% | Repeat Mode: ${repeatMode}`,
         },
       ])

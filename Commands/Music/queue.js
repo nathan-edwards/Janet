@@ -13,23 +13,24 @@ module.exports = {
     if (!queue) {
       if (_fromButton) return;
       const embed = new EmbedBuilder();
-      embed.setTitle("Server Queue");
+      embed.setTitle("🎶 Queue");
       embed.setColor(colors.red);
       embed.setDescription(`No songs in the queue.`);
       return interaction.editReply({ embeds: [embed] });
     }
 
-    var queue = await client.player.getQueue(interaction.guildId);
-    const current = queue.songs[0];
-    queue.songs.shift();
+    var Realqueue = await client.player.getQueue(interaction.guildId);
+    var queueCopy = [...Realqueue.songs]
+    const current = queueCopy[0];
+    queueCopy.shift();
     const pages = [];
     let page = 1,
-    emptypage = false,
-    usedby = _fromButton ? `[${interaction.member}]\n` : "";
+      emptypage = false,
+      usedby = _fromButton ? `[${interaction.member}]\n` : "";
     do {
       const pageStart = 10 * (page - 1);
       const pageEnd = pageStart + 10;
-      const songs = queue.songs.slice(pageStart, pageEnd).map((m, i) => {
+      const songs = queueCopy.slice(pageStart, pageEnd).map((m, i) => {
         const title = ["spotify-custom", "soundcloud-custom"].includes(m.source)
           ? `${m.uploader.name} - ${m.name}`
           : `${m.name}`;
@@ -37,18 +38,38 @@ module.exports = {
           m.uploader.name
         } [${m.formattedDuration}]`;
       });
+
+      let repeatMode = Realqueue.repeatMode;
+      switch (repeatMode) {
+        case 0:
+          repeatMode = "Disabled";
+          break;
+        case 1:
+          repeatMode = "Track";
+          break;
+        case 2:
+          repeatMode = "Queue";
+          break;
+      }
+
       if (songs.length) {
         const embed = new EmbedBuilder();
-        embed.setDescription(`🎵 **Now Playing**\n[${current.name}](${
-          current.url
-        }) by ${current.uploader.name} [${
-          current.formattedDuration
-        }]\n\n📃 **Up Next**
+        embed
+          .setTitle(`🎶 Queue`)
+          .setDescription(
+            `**Now Playing:**\n[${current.name}](${current.url}) - ${
+              current.uploader.name
+            }\n\n**Up Next:**
           ${usedby}${songs.join("\n")}${
-          queue.songs.length > pageEnd
-            ? `\n... ${queue.songs.length - pageEnd} more track(s)`
-            : ""
-        }`);
+              queueCopy.length > pageEnd
+                ? `\n... ${queueCopy.length - pageEnd} more track(s)`
+                : ""
+            }\n\n**Settings:**\nVolume: ${
+              Realqueue.volume
+            }% | Repeat Mode: ${repeatMode}`
+          )
+          .setTimestamp()
+          .setThumbnail(current.thumbnail);
         if (page % 2 === 0) embed.setColor(colors.default);
         else embed.setColor(colors.default);
         const title = ["spotify-custom", "soundcloud-custom"].includes(
@@ -63,18 +84,35 @@ module.exports = {
         emptypage = true;
         if (page === 1) {
           const embed = new EmbedBuilder();
-          embed.setColor(colors.default);
-          embed.setDescription(`${usedby}No more songs in the queue.`);
+          embed
+            .setColor(colors.default)
+            .setDescription(`${usedby}No more songs in the queue.`);
           const title = ["spotify-custom", "soundcloud-custom"].includes(
             current.source
           )
             ? `${current.uploader.name} - ${current.name}`
             : `${current.name}`;
-          embed.setAuthor({
-            name: `Now playing: ${title}`,
-            iconURL: null,
-            url: `${current.url}`,
-          });
+          embed
+            .setThumbnail(current.thumbnail)
+            .setTitle("🎵 Now Playing")
+            .setDescription(
+              `[${current.name}](${current.url}) - ${current.uploader.name} [${current.formattedDuration}]`
+            )
+            .addFields([
+              {
+                name: "Requested by:",
+                value: `${current.user}`,
+              },
+              {
+                name: "Queue:",
+                value: `The queue is empty.`,
+              },
+            ])
+            .setFooter({
+              text: `${interaction.member.user.tag} `,
+              iconURL: `${interaction.member.user.avatarURL()}`,
+            })
+            .setTimestamp();
           return _fromButton
             ? interaction.channel.send({ embeds: [embed] })
             : interaction.editReply({ embeds: [embed] });

@@ -14,18 +14,18 @@ module.exports = {
     ),
   async execute(interaction, client) {
     const queue = client.player.getQueue(interaction.guildId);
-    const index = interaction.options.getNumber("index") - 1;
+    const index = interaction.options.getNumber("position");
 
     if (!queue || !queue.playing)
       return interaction.reply("I'm currently not playing in this server.");
 
-    if (queue.tracks.length < 1)
+    if (queue.songs.length < 1)
       return interaction.reply("There is no song in the queue.");
 
-    if (index > queue.tracks.length || index < 0 || !queue.tracks[index])
+    if (index > queue.songs.length || index < 0 || !queue.songs[index])
       return interaction.reply("Provided song index does not exist.");
 
-    track = queue.tracks[index];
+    track = queue.songs[index];
     queue.jump(index);
 
     const Response = new EmbedBuilder()
