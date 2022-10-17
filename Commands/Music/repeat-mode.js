@@ -22,17 +22,26 @@ module.exports = {
     const { options } = interaction;
     let mode = options.getNumber("mode");
     const queue = client.player.getQueue(interaction.guildId);
+    const Response = new EmbedBuilder();
 
-    if (!queue?.playing)
+    if (!queue?.playing) {
+      Response.setColor(colors.red).setDescription(
+        "⚠️ No music is currently being played"
+      );
       return interaction.reply({
-        content: "No music is currently being played",
+        embeds: [Response],
       });
+    }
 
     await client.player.setRepeatMode(interaction.guildId, mode);
 
-    const Response = new EmbedBuilder()
-      .setColor(colors.default)
-      .setTitle(`🔁 Repeat mode has been set to **${mode = mode ? mode == 2 ? "Queue" : "Track" : "Off"}**`);
+    Response.setColor(colors.default).setDescription(
+      `🔁 Repeat mode has been set to **${(mode = mode
+        ? mode == 2
+          ? "Queue"
+          : "Track"
+        : "Off")}**`
+    );
 
     return interaction.reply({
       embeds: [Response],

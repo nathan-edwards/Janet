@@ -9,16 +9,30 @@ module.exports = {
   async execute(interaction, client) {
     const queue = client.player.getQueue(interaction.guildId);
 
-    if (!queue)
+    const Response = new EmbedBuilder();
+
+    if (!queue) {
+      Response.setColor(colors.red).setDescription(
+        "⚠️ No music is currently being played"
+      );
       return interaction.reply({
-        content: "No music is currently being played",
+        embeds: [Response],
       });
+    }
 
     client.player.skip(interaction.guildId);
 
-    const Response = new EmbedBuilder()
-      .setColor(colors.default)
-      .setTitle("⏭️ Skipped the current song!");
+    Response.setColor(colors.default)
+      .setTitle("⏭️ Skipped")
+      .setDescription(
+        `${queue.songs[0].name} - ${queue.songs[0].uploader.name}\n\nNow Playing:\n${queue.songs[1].name} - ${queue.songs[1].uploader.name}`
+      )
+      .setFooter({
+        text: `${interaction.member.user.tag} `,
+        iconURL: `${interaction.member.user.avatarURL()}`,
+      })
+      .setTimestamp()
+      .setThumbnail(queue.songs[0].thumbnail);
 
     return interaction.reply({
       embeds: [Response],

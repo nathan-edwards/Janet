@@ -8,15 +8,20 @@ module.exports = {
     .setDescription("Clears the current queue"),
   async execute(interaction, client) {
     const queue = client.player.getQueue(interaction.guildId);
+    const Response = new EmbedBuilder();
 
-    if (!queue)
-      return await interaction.reply("There are no songs in the queue");
+    if (!queue) {
+      Response.setColor(colors.red).setDescription(
+        `⚠️ No music is currently being played`
+      );
+      return interaction.reply({
+        embeds: [Response],
+      });
+    }
 
     queue.stop(interaction.guildId);
 
-    const Response = new EmbedBuilder()
-      .setColor(colors.default)
-      .setTitle("🧹 Queue has been cleared!");
+    Response.setColor(colors.default).setTitle("🧹 Queue has been cleared!");
 
     return interaction.reply({
       embeds: [Response],

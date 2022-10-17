@@ -12,7 +12,9 @@ module.exports = {
     const Response = new EmbedBuilder();
 
     if (!queue) {
-      Response.setTitle("🛑 There is no music playing!").setColor(colors.red);
+      Response.setColor(colors.red).setDescription(
+        "⚠️ No music is currently being played"
+      );
       return interaction.reply({
         embeds: [Response],
       });

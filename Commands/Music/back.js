@@ -8,17 +8,20 @@ module.exports = {
     .setDescription("Skips the current song"),
   async execute(interaction, client) {
     const queue = client.player.getQueue(interaction.guildId);
+    const Response = new EmbedBuilder();
 
-    if (!queue || !queue.playing)
+    if (!queue || !queue.playing) {
+      Response.setColor(colors.red).setDescription(
+        `⚠️ No music is currently being played`
+      );
       return interaction.reply({
-        content: "No music is currently being played",
+        embeds: [Response],
       });
+    }
 
     await queue.previous();
 
-    const Response = new EmbedBuilder()
-      .setColor(colors.default)
-      .setTitle("⏮️ Playing the previous song!");
+    Response.setColor(colors.default).setTitle("⏮️ Playing the previous song!");
 
     return interaction.reply({
       embeds: [Response],

@@ -8,21 +8,20 @@ module.exports = {
     .setDescription("Grabs the current song"),
   async execute(interaction, client) {
     const queue = client.player.getQueue(interaction.guildId);
+    const Response1 = new EmbedBuilder();
+
     if (!queue || !queue.playing) {
+      Response.setColor(colors.red).setDescription(
+        `⚠️ No music is currently being played`
+      );
       return interaction.reply({
-        embeds: [
-          {
-            description: `There's nothing currently playing in the server.`,
-            color: colors.red,
-          },
-        ],
-        ephemeral: true,
+        embeds: [Response],
       });
     }
 
-    const Response1 = new EmbedBuilder()
-      .setColor(colors.default)
-      .setTitle(`Sent a DM with the current song!`);
+    Response1.setColor(colors.default).setTitle(
+      `Sent a DM with the current song!`
+    );
 
     interaction.reply({
       embeds: [Response1],

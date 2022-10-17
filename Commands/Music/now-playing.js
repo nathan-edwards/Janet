@@ -8,13 +8,15 @@ module.exports = {
     .setDescription("Shows the current song playing"),
   async execute(interaction, client) {
     const queue = client.player.getQueue(interaction.guildId);
-    if (!queue?.playing)
+    if (!queue?.playing) {
+      Response.setColor(colors.red).setDescription(
+        "⚠️ No music is currently being played"
+      );
       return interaction.reply({
-        content: "No music is currently being played",
+        embeds: [Response],
       });
+    }
 
-    // const progress = queue.createProgressBar();
-    // const perc = queue.getPlayerTimestamp();
     let next;
     if (!queue.songs[1]) {
       next = "There are no songs queued";
@@ -42,10 +44,6 @@ module.exports = {
         `[${queue.songs[0].name}](${queue.songs[0].url}) - ${queue.songs[0].uploader.name}`
       )
       .addFields([
-        // {
-        //   name: "Progress:",
-        //   value: progress,
-        // },
         {
           name: "Requested by:",
           value: `${queue.songs[0].user}`,

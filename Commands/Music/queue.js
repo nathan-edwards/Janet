@@ -20,7 +20,7 @@ module.exports = {
     }
 
     var Realqueue = await client.player.getQueue(interaction.guildId);
-    var queueCopy = [...Realqueue.songs]
+    var queueCopy = [...Realqueue.songs];
     const current = queueCopy[0];
     queueCopy.shift();
     const pages = [];

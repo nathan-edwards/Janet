@@ -20,7 +20,7 @@ module.exports = {
         embeds: [
           new EmbedBuilder()
             .setColor(colors.red)
-            .setDescription(`You are not in a voice channel!`),
+            .setDescription(`⚠️ You are not in a voice channel!`),
         ],
         ephemeral: true,
         failIfNotExists: false,
@@ -35,7 +35,7 @@ module.exports = {
         embeds: [
           new EmbedBuilder()
             .setColor(colors.red)
-            .setDescription(`You are not in my voice channel!`),
+            .setDescription(`⚠️ You are not in my voice channel!`),
         ],
         ephemeral: true,
         failIfNotExists: false,

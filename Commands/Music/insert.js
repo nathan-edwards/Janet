@@ -22,28 +22,29 @@ module.exports = {
     const { options } = interaction;
     const position = options.getNumber("position");
     const query = options.getString("song");
+    const Response = new EmbedBuilder();
 
-    if (!interaction.member.voice.channelId)
+    if (!interaction.member.voice.channelId) {
+      Response.setColor(colors.red).setDescription(
+        `⚠️ You are not in a voice channel`
+      );
       return interaction.reply({
-        embeds: [
-          { description: `You are not in a voice channel!`, color: colors.red },
-        ],
-        ephemeral: true,
+        embeds: [Response],
       });
+    }
+
     if (
       interaction.guild.members.me.voice.channelId &&
       interaction.member.voice.channelId !==
         interaction.guild.members.me.voice.channelId
-    )
+    ) {
+      Response.setColor(colors.red).setDescription(
+        `⚠️ You are not in my voice channel`
+      );
       return interaction.reply({
-        embeds: [
-          {
-            description: `You are not in my voice channel!`,
-            color: colors.red,
-          },
-        ],
-        ephemeral: true,
+        embeds: [Response],
       });
+    }
 
     await client.player.play(interaction.member.voice.channel, query, {
       member: interaction.member,
@@ -57,8 +58,7 @@ module.exports = {
     const queue = await client.player.getQueue(interaction.guildId);
     const track = queue.songs[position];
 
-    const Response = new EmbedBuilder()
-      .setColor(colors.default)
+    Response.setColor(colors.default)
       .setTitle(`🎶 Inserted`)
       .setDescription(
         `**[${track.name}](${track.url})** by **${track.uploader.name}** at position **${position}**`

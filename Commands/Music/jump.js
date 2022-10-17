@@ -15,21 +15,39 @@ module.exports = {
   async execute(interaction, client) {
     const queue = client.player.getQueue(interaction.guildId);
     const index = interaction.options.getNumber("position");
+    const Response = new EmbedBuilder();
 
-    if (!queue || !queue.playing)
-      return interaction.reply("I'm currently not playing in this server.");
+    if (!queue || !queue.playing) {
+      Response.setColor(colors.red).setDescription(
+        `⚠️ No music is currently being played`
+      );
+      return interaction.reply({
+        embeds: [Response],
+      });
+    }
 
-    if (queue.songs.length < 1)
-      return interaction.reply("There is no song in the queue.");
+    if (queue.songs.length < 1) {
+      Response.setColor(colors.red).setDescription(
+        `⚠️ No music is currently being played`
+      );
+      return interaction.reply({
+        embeds: [Response],
+      });
+    }
 
-    if (index > queue.songs.length || index < 0 || !queue.songs[index])
-      return interaction.reply("Provided song index does not exist.");
+    if (index > queue.songs.length || index < 0 || !queue.songs[index]) {
+      Response.setColor(colors.red).setDescription(
+        `⚠️ Provided song index does not exist`
+      );
+      return interaction.reply({
+        embeds: [Response],
+      });
+    }
 
     track = queue.songs[index];
     queue.jump(index);
 
-    const Response = new EmbedBuilder()
-      .setColor(colors.default)
+    Response.setColor(colors.default)
       .setTitle(`🔢 Jumped To Position ${index + 1}`)
       .setDescription(
         `**[${track.name}](${track.url})** by **${track.uploader.name}**`

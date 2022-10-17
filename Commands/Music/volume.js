@@ -10,31 +10,44 @@ module.exports = {
       option
         .setName("volume")
         .setDescription("The volume to set the current song to")
-        .setRequired(true)
     ),
   async execute(interaction, client) {
     const volumePercentage = interaction.options.getNumber("volume");
     const queue = client.player.getQueue(interaction.guildId);
-    if (!queue?.playing)
-      return interaction.reply({
-        content: "No music is currently being played",
-      });
+    const Response = new EmbedBuilder();
 
-    if (!volumePercentage)
+    if (!queue?.playing) {
+      Response.setColor(colors.red).setDescription(
+        `⚠️ No music is currently being played`
+      );
       return interaction.reply({
-        content: `The current volume is \`${queue.volume}%\``,
+        embeds: [Response],
       });
+    }
 
-    if (volumePercentage < 0 || volumePercentage > 100)
+    if (!volumePercentage) {
+      Response.setColor(colors.default).setDescription(
+        `🔊 The current volume is \`${queue.volume}%\``
+      );
       return interaction.reply({
-        content: "The volume must be betweeen 1 and 100",
+        embeds: [Response],
       });
+    }
+
+    if (volumePercentage < 0 || volumePercentage > 100) {
+      Response.setColor(colors.red).setDescription(
+        `🔊 The volume must be betweeen 1 and 100`
+      );
+      return interaction.reply({
+        embeds: [Response],
+      });
+    }
 
     client.player.setVolume(interaction.guildId, volumePercentage);
 
-    const Response = new EmbedBuilder()
-      .setColor(colors.default)
-      .setTitle(`🔊 Volume has been set to ${volumePercentage}%!`);
+    Response.setColor(colors.default).setDescription(
+      `🔊 Volume has been set to **${volumePercentage}%**`
+    );
 
     return interaction.reply({
       embeds: [Response],

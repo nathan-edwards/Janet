@@ -12,8 +12,8 @@ module.exports = {
     const Response = new EmbedBuilder();
 
     if (!queue) {
-      Response.setTitle("🛑 There are no songs in the queue!").setColor(
-        colors.red
+      Response.setColor(colors.red).setDescription(
+        "⚠️ No music is currently being played"
       );
       return interaction.reply({
         embeds: [Response],
@@ -22,7 +22,9 @@ module.exports = {
 
     client.player.resume(interaction.guildId);
 
-    Response.setColor(colors.default).setTitle("▶️ Resumed the current song!");
+    Response.setColor(colors.default).setDescription(
+      "▶️ Resumed the current song!"
+    );
 
     return interaction.reply({
       embeds: [Response],
