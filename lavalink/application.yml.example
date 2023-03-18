@@ -1,0 +1,115 @@
+server: # REST and WS server
+  port: 2333
+  address: 0.0.0.0
+lavalink:
+  plugins:
+    - dependency: "com.github.TopiSenpai.LavaSrc:lavasrc-plugin:3.2.0"
+      repository: "https://jitpack.io"
+    - dependency: "com.dunctebot:skybot-lavalink-plugin:1.4.1"
+      repository: "https://m2.duncte123.dev/releases"
+  server:
+    password: "youshallnotpass"
+    sources:
+      youtube: true
+      bandcamp: true
+      soundcloud: true
+      twitch: true
+      vimeo: true
+      mixer: true
+      http: true
+      local: true
+    filters: # All filters are enabled by default
+      volume: true
+      equalizer: true
+      karaoke: true
+      timescale: true
+      tremolo: true
+      vibrato: true
+      distortion: true
+      rotation: true
+      channelMix: true
+      lowPass: true
+    playerUpdateInterval: 1 # How frequently to send player updates to clients, in seconds
+    bufferDurationMs: 400 # The duration of the NAS buffer. Higher values fare better against longer GC pauses. Duration <= 0 to disable JDA-NAS. Minimum of 40ms, lower values may introduce pauses.
+    frameBufferDurationMs: 5000 # How many milliseconds of audio to keep buffered
+    opusEncodingQuality: 10 # Opus encoder quality. Valid values range from 0 to 10, where 10 is best quality but is the most expensive on the CPU.
+    resamplingQuality: LOW # Quality of resampling operations. Valid values are LOW, MEDIUM and HIGH, where HIGH uses the most CPU.
+    trackStuckThresholdMs: 10000 # The threshold for how long a track can be stuck. A track is stuck if does not return any audio data.
+    useSeekGhosting: true # Seek ghosting is the effect where whilst a seek is in progress, the audio buffer is read from until empty, or until seek is ready.
+    youtubePlaylistLoadLimit: 6 # Number of pages at 100 each
+    youtubeSearchEnabled: true
+    soundcloudSearchEnabled: true
+    gc-warnings: true
+    koe:
+      useEpoll: true
+      highPacketPriority: true
+      bufferDurationMs: 400
+      byteBufAllocator: "default"
+    lavaplayer:
+      nonAllocating: false # Whether to use the non-allocating frame buffer.
+      frameBufferDuration: 5000 # The frame buffer duration, in milliseconds
+      youtubePlaylistLoadLimit: 6 # Number of pages at 100 each
+      gc-warnings: true
+      youtubeSearchEnabled: true
+      soundcloudSearchEnabled: true
+
+plugins:
+  lavasrc:
+    providers:
+      # - "dzisrc:%ISRC%" # Deezer ISRC provider
+      # - "dzsearch:%QUERY%" # Deezer search provider
+      - 'ytsearch:"%ISRC%"' # Will be ignored if track does not have an ISRC. See https://en.wikipedia.org/wiki/International_Standard_Recording_Code
+      - "ytsearch:%QUERY%" # Will be used if track has no ISRC or no track could be found for the ISRC
+      #  you can add multiple other fallback sources here
+    sources:
+      spotify: true # Enable Spotify source
+      applemusic: true # Enable Apple Music source
+      deezer: true # Enable Deezer source
+      yandexmusic: true # Enable Yandex Music source
+    spotify:
+      clientId: "your spotify client id"
+      clientSecret: "your spotify client secret"
+      countryCode: "UK"
+      playlistLoadLimit: 6
+      albumLoadLimit: 6
+    applemusic:
+      countryCode: "UK" # the country code you want to use for filtering the artists top tracks and language. See https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+      # mediaAPIToken: "..." # Can be used to bypass the auto token fetching which is likely to break again in the future
+      playlistLoadLimit: 6 # The number of pages at 300 tracks each
+      albumLoadLimit: 6 # The number of pages at 300 tracks each
+    deezer:
+      masterDecryptionKey: "your master decryption key" # the master key used for decrypting the deezer tracks. (yes this is not here you need to get it from somewhere else)
+    yandexmusic:
+      accessToken: "your access token" # the token used for accessing the yandex music api. See https://github.com/TopiSenpai/LavaSrc#yandex-music
+  dunctebot:
+    ttsLanguage: "en-GB" # language of the TTS engine
+    sources:
+      # true = source enabled, false = source disabled
+      getyarn: true # www.getyarn.io
+      clypit: true # www.clyp.it
+      tts: true # speak:Words to speak
+      pornhub: false # should be self-explanatory
+      reddit: true # should be self-explanatory
+      ocremix: true # www.ocremix.org
+      tiktok: true # tiktok.com
+      mixcloud: true # mixcloud.com
+      soundgasm: true # soundgasm.net
+
+metrics:
+  prometheus:
+    enabled: false
+    endpoint: /metrics
+
+sentry:
+  dsn: ""
+  environment: ""
+
+logging:
+  file:
+    max-history: 30
+    max-size: 1GB
+  path: ./logs/
+
+  level:
+    root: INFO
+    lavalink: INFO

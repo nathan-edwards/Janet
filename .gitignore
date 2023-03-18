@@ -1,4 +1,17 @@
 node_modules
+# Keep environment variables out of version control
 .env
-config.json
-Janet Quotes.txt
+
+# Ignore all files in the .vscode folder
+/.vscode
+
+# Ignore all files in the node_modules folder
+/node_modules
+
+/dist
+
+command.ts
+
+commands.json
+
+application.yml
