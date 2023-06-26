@@ -1,5 +1,6 @@
 export declare enum SearchEngine {
     YouTube = "ytsearch",
     SoundCloud = "scsearch",
-    YouTubeMusic = "ytmsearch"
+    YouTubeMusic = "ytmsearch",
+    Spotify = "spsearch"
 }

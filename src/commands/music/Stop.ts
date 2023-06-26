@@ -39,8 +39,8 @@ export default class Stop extends Command {
       embeds: [
         embed
           .setColor(this.client.color.main)
-          .setAuthor({ name: "Disco Janet 🎵 Stop ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-          .setDescription(`⏹️ Stopped the music and cleared the queue`),
+          .setAuthor({ name: "| ⏹️ Stop ", iconURL: ctx.author.avatarURL()})
+          .setDescription(`Stopped the music and cleared the queue`),
       ],
     });
   }

@@ -36,8 +36,8 @@ export default class Loop extends Command {
                 return ctx.sendMessage({
                     embeds: [
                         embed
-                            .setDescription(`🔁 Looping the queue`)
-                            .setAuthor({ name: "Disco Janet 🎵 Loop ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+                            .setDescription(`Looping the queue`)
+                            .setAuthor({ name: "| 🔁 Loop ", iconURL: ctx.author.avatarURL() })
                             .setColor(client.color.main),
                     ],
                 });
@@ -46,8 +46,8 @@ export default class Loop extends Command {
                 return ctx.sendMessage({
                     embeds: [
                         embed
-                            .setDescription(`🔁 Looping the song`)
-                            .setAuthor({ name: "Disco Janet 🎵 Loop ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+                            .setDescription(`Looping the song`)
+                            .setAuthor({ name: "| 🔁 Loop ", iconURL: ctx.author.avatarURL() })
                             .setColor(client.color.main),
                     ],
                 });
@@ -56,8 +56,8 @@ export default class Loop extends Command {
                 return ctx.sendMessage({
                     embeds: [
                         embed
-                            .setDescription(`🔁 Looping is now off`)
-                            .setAuthor({ name: "Disco Janet 🎵 Loop ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+                            .setDescription(`Looping is now off`)
+                            .setAuthor({ name: "| 🔁 Loop ", iconURL: ctx.author.avatarURL() })
                             .setColor(client.color.main),
                     ],
                 });

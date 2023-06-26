@@ -39,7 +39,7 @@ export default class Queue extends Command {
                     this.client
                         .embed()
                         .setColor(this.client.color.main)
-                        .setAuthor({ name: "Disco Janet 🎶 Queue ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+                        .setAuthor({ name: "| 🎶 Queue ", iconURL: ctx.author.avatarURL() })
                         .setThumbnail(player.current.info.thumbnail)
                         .setDescription(`**Now Playing**:\n [${player.current.info.title}](${player.current.info.uri}) - Request By: ${player.current?.info.requester} - Duration: ${player.current.info.isStream
                         ? "LIVE"
@@ -57,7 +57,7 @@ export default class Queue extends Command {
             const embed = this.client
                 .embed()
                 .setColor(this.client.color.main)
-                .setAuthor({ name: "Disco Janet 🎶 Queue ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+                .setAuthor({ name: "| 🎶 Queue ", iconURL: ctx.author.avatarURL() })
                 .setThumbnail(player.current.info.thumbnail)
                 .setDescription(`\n ** Now Playing **: \n` + `[${player.current.info.title}](${player.current.info.uri}) - Request By: ${player.current?.info.requester} - Duration: ${player.current.info.isStream ? "LIVE" : this.client.utils.formatTime(player.current.info.length)} \n\n` + ` ** Coming Up **: \n` + chunks[i].join("\n") + `\n\n ** Settings **: \n` + `Volume: ` + (player.volume * 100) + ` | Loop: ` + ((player.loop).charAt(0).toUpperCase() + player.loop.slice(1)) + ` | Shuffle: ` + ((player.shuffle).toString().charAt(0).toUpperCase() + player.shuffle.toString().slice(1)) + ` | Autoplay: ` + ((player.autoplay).toString().charAt(0).toUpperCase() + player.autoplay.toString().slice(1)))
                 .setFooter({ text: `Page ${i + 1} of ${chunks.length} ` });

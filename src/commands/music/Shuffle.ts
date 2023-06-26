@@ -36,8 +36,8 @@ export default class Shuffle extends Command {
         embeds: [
           embed
             .setColor(this.client.color.red)
-            .setAuthor({ name: "Disco Janet ⚠️ Shuffle ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-            .setDescription("🔀 There are no songs in the queue."),
+            .setAuthor({ name: "Disco Janet ⚠️ Shuffle ", iconURL: ctx.author.avatarURL()})
+            .setDescription("There are no songs in the queue."),
         ],
       });
     player.setShuffle(true);
@@ -46,8 +46,8 @@ export default class Shuffle extends Command {
       embeds: [
         embed
           .setColor(this.client.color.main)
-          .setAuthor({ name: "Disco Janet 🎵 Shuffle ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-          .setDescription(`🔀 Shuffled the queue`),
+          .setAuthor({ name: "Disco Janet 🔀 Shuffle ", iconURL: ctx.author.avatarURL() })
+          .setDescription(`Shuffled the queue`),
       ],
     });
   }

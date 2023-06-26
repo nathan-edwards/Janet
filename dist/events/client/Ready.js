@@ -7,7 +7,7 @@ export default class Ready extends Event {
         });
     }
     async run() {
-        this.client.logger.success(`${this.client.user?.tag} is ready!`);
+        this.client.logger.success(`Successfully logged in as ${this.client.user?.tag}!`);
         this.client.user?.setActivity({
             name: "Hi There!",
             type: ActivityType.Listening,

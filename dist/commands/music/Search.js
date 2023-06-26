@@ -49,7 +49,7 @@ export default class Search extends Command {
                 embeds: [
                     embed
                         .setDescription(`**No results found**`)
-                        .setAuthor({ name: "Disco Janet ⚠️ Search ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+                        .setAuthor({ name: "| ⚠️ Search ", iconURL: ctx.author.avatarURL() })
                         .setColor(client.color.red),
                 ],
             });
@@ -76,7 +76,7 @@ export default class Search extends Command {
                     embeds: [
                         embed
                             .setColor(this.client.color.red)
-                            .setAuthor({ name: "Disco Janet ⚠️ Search ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+                            .setAuthor({ name: "| ⚠️ Search ", iconURL: ctx.author.avatarURL() })
                             .setDescription("🔎 There was an error while searching."),
                     ],
                 });
@@ -86,7 +86,7 @@ export default class Search extends Command {
                     embeds: [
                         embed
                             .setColor(this.client.color.red)
-                            .setAuthor({ name: "Disco Janet ⚠️ Search ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+                            .setAuthor({ name: "| ⚠️ Search ", iconURL: ctx.author.avatarURL() })
                             .setDescription("🔎 There were no results found."),
                     ],
                 });

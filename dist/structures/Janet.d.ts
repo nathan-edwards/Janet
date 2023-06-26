@@ -1,10 +1,11 @@
-import { Collection, ClientOptions, Client, EmbedBuilder } from "discord.js";
+import { Collection, Client, ClientOptions, EmbedBuilder } from "discord.js";
 import Logger from "./Logger.js";
 import { ShoukakuClient, Queue } from "./index.js";
 import { Utils } from "../utils/Utils.js";
 import { PrismaClient } from "@prisma/client";
 export default class Janet extends Client {
     commands: Collection<string, any>;
+    components: Collection<string, any>;
     aliases: Collection<string, any>;
     prisma: PrismaClient<import(".prisma/client").Prisma.PrismaClientOptions, never, import(".prisma/client").Prisma.RejectOnNotFound | import(".prisma/client").Prisma.RejectPerOperation>;
     cooldowns: Collection<string, any>;
@@ -50,4 +51,5 @@ export default class Janet extends Client {
     start(token: string): Promise<string>;
     private loadCommands;
     private loadEvents;
+    private loadComponents;
 }

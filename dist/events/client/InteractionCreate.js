@@ -158,6 +158,21 @@ export default class InteractionCreate extends Event {
                 await interaction.reply({ content: `An error occured: \`${error}\`` });
             }
         }
+        else if (interaction.type === InteractionType.ModalSubmit) {
+            if (!interaction.isModalSubmit())
+                return;
+            const { customId } = interaction;
+            const modal = this.client.components.get(customId);
+            if (!modal)
+                return;
+            try {
+                await modal.run(this.client, interaction);
+            }
+            catch (error) {
+                this.client.logger.error(error);
+                await interaction.reply({ content: `An error occured: \`${error}\`` });
+            }
+        }
     }
 }
 //# sourceMappingURL=InteractionCreate.js.map

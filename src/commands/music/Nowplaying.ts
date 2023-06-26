@@ -41,7 +41,7 @@ export default class Nowplaying extends Command {
     const embed1 = this.client
       .embed()
       .setColor(this.client.color.main)
-      .setAuthor({ name: "Disco Janet 🎵 Now Playing ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+      .setAuthor({ name: " | 🎵 Now Playing ", iconURL: ctx.author.avatarURL()})
       .setThumbnail(track.info.thumbnail)
       .setDescription(
         `[${track.info.title}](${track.info.uri}) - Request By: ${track.info.requester}\n\n\`${bar}\``

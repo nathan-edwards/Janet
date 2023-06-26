@@ -46,7 +46,7 @@ export default class Grab extends Command {
                 embeds: [
                     embed
                         .setColor(client.color.green)
-                        .setAuthor({ name: "Disco Janet 🎵 Grab ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+                        .setAuthor({ name: "| 🎵 Grab ", iconURL: ctx.author.avatarURL() })
                         .setDescription(`🪝 **I sent you a DM.**`)
                 ],
             });
@@ -56,7 +56,7 @@ export default class Grab extends Command {
                 embeds: [
                     embed
                         .setColor(client.color.red)
-                        .setAuthor({ name: "Disco Janet ⚠️ Grab ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+                        .setAuthor({ name: "| ⚠️ Grab ", iconURL: ctx.author.avatarURL() })
                         .setDescription(`🪝 **I couldn't send you a DM.**`)
                 ],
             });

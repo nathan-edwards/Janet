@@ -37,7 +37,7 @@ export default class Pause extends Command {
         embeds: [
           embed
             .setColor(this.client.color.main)
-            .setAuthor({ name: "Disco Janet 🎵 Pause ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+            .setAuthor({ name: "| 🎵 Pause ", iconURL: ctx.author.avatarURL() })
             .setDescription(`⏸️ Paused the song`),
         ],
       });
@@ -46,7 +46,7 @@ export default class Pause extends Command {
         embeds: [
           embed
             .setColor(this.client.color.red)
-            .setAuthor({ name: "Disco Janet ⚠️ Pause ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+            .setAuthor({ name: "| ⚠️ Pause ", iconURL: ctx.author.avatarURL()})
             .setDescription(`⏸️ The song is already paused`),
         ],
       });

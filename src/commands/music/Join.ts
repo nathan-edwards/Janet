@@ -43,8 +43,8 @@ export default class Join extends Command {
         embeds: [
           embed
             .setColor(this.client.color.main)
-            .setAuthor({ name: "Disco Janet 🎵 Join ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-            .setDescription(`🔗 Joined <#${player.player.connection.channelId}>`),
+            .setAuthor({ name: "| 🔗 Join ", iconURL: ctx.author.avatarURL() })
+            .setDescription(`Joined <#${player.player.connection.channelId}>`),
         ],
       });
     } else {
@@ -52,10 +52,8 @@ export default class Join extends Command {
         embeds: [
           embed
             .setColor(this.client.color.main)
-            .setAuthor({ name: "Disco Janet 🎵 Join ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-            .setDescription(
-              `🔗 I'm already connected to <#${player.player.connection.channelId}>`
-            ),
+            .setAuthor({ name: "| 🔗 Join", iconURL: ctx.author.avatarURL()})
+            .setDescription(`I'm already connected to <#${player.player.connection.channelId}>`),
         ],
       });
     }

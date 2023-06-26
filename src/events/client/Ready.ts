@@ -1,5 +1,6 @@
 import { Event, Janet } from "../../structures/index.js";
 import { ActivityType } from "discord.js";
+
 export default class Ready extends Event {
   constructor(client: Janet, file: string) {
     super(client, file, {
@@ -7,8 +8,7 @@ export default class Ready extends Event {
     });
   }
   public async run(): Promise<void> {
-    this.client.logger.success(`${this.client.user?.tag} is ready!`);
-
+    this.client.logger.success(`Successfully logged in as ${this.client.user?.tag}!`);
     this.client.user?.setActivity({
       name: "Hi There!",
       type: ActivityType.Listening,

@@ -42,8 +42,8 @@ export default class Skipto extends Command {
                 embeds: [
                     embed
                         .setColor(this.client.color.red)
-                        .setAuthor({ name: "Disco Janet ⚠️ Skipto ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-                        .setDescription("🔢 There are no songs in the queue."),
+                        .setAuthor({ name: "| ⚠️ Skip To ", iconURL: ctx.author.avatarURL() })
+                        .setDescription("There are no songs in the queue."),
                 ],
             });
         if (isNaN(Number(args[0])))
@@ -51,8 +51,8 @@ export default class Skipto extends Command {
                 embeds: [
                     embed
                         .setColor(this.client.color.red)
-                        .setAuthor({ name: "Disco Janet ⚠️ Skipto ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-                        .setDescription("🔢 Please provide a valid number."),
+                        .setAuthor({ name: "| ⚠️ Skipto ", iconURL: ctx.author.avatarURL() })
+                        .setDescription("Please provide a valid number."),
                 ],
             });
         if (Number(args[0]) > player.queue.length)
@@ -60,8 +60,8 @@ export default class Skipto extends Command {
                 embeds: [
                     embed
                         .setColor(this.client.color.red)
-                        .setAuthor({ name: "Disco Janet ⚠️ Skipto ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-                        .setDescription("🔢 Please provide a valid number."),
+                        .setAuthor({ name: "| ⚠️ Skipto ", iconURL: ctx.author.avatarURL() })
+                        .setDescription("Please provide a valid number."),
                 ],
             });
         if (Number(args[0]) < 1)
@@ -69,8 +69,8 @@ export default class Skipto extends Command {
                 embeds: [
                     embed
                         .setColor(this.client.color.red)
-                        .setAuthor({ name: "Disco Janet ⚠️ Skipto ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-                        .setDescription("🔢 Please provide a valid number."),
+                        .setAuthor({ name: "| ⚠️ Skipto ", iconURL: ctx.author.avatarURL() })
+                        .setDescription("Please provide a valid number."),
                 ],
             });
         player.skip(Number(args[0]));
@@ -78,8 +78,8 @@ export default class Skipto extends Command {
             embeds: [
                 embed
                     .setColor(this.client.color.main)
-                    .setAuthor({ name: "Disco Janet 🎵 Skipto ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-                    .setDescription(`🔢 Skipped to song number ${args[0]}`),
+                    .setAuthor({ name: "| 🔢 Skipto ", iconURL: ctx.author.avatarURL() })
+                    .setDescription(`Skipped to song number ${args[0]}`),
             ],
         });
     }

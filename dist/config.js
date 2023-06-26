@@ -2,7 +2,7 @@ import dotent from "dotenv";
 import { SearchEngine } from "./types.js";
 dotent.config();
 export default {
-    token: process.env.TOKEN,
+    token: process.env.npm_config_disco ? process.env.DISCO_TOKEN : process.env.TOKEN,
     prefix: process.env.PREFIX,
     color: {
         red: 0xf74847,
@@ -16,7 +16,7 @@ export default {
     maxQueueSize: parseInt(process.env.MAX_QUEUE_SIZE) || 100,
     owners: process.env.OWNERS?.split(","),
     database: process.env.DATABASE_URL,
-    clientId: process.env.CLIENT_ID,
+    clientId: process.env.npm_config_disco ? process.env.DISCO_CLIENT_ID : process.env.CLIENT_ID,
     guildId: process.env.GUILD_ID,
     production: parseBoolean(process.env.PRODUCTION) || true,
     lavalink: [

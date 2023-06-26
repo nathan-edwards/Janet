@@ -46,8 +46,8 @@ export default class Volume extends Command {
         embeds: [
           embed
             .setColor(this.client.color.red)
-            .setAuthor({ name: "Disco Janet ⚠️ Volume ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-            .setDescription("🔊 Please provide a valid number."),
+            .setAuthor({ name: "| ⚠️ Volume ", iconURL: ctx.author.avatarURL()})
+            .setDescription("Please provide a valid number."),
         ],
       });
     if (number > 200)
@@ -55,8 +55,8 @@ export default class Volume extends Command {
         embeds: [
           embed
             .setColor(this.client.color.red)
-            .setAuthor({ name: "Disco Janet ⚠️ Volume ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-            .setDescription("🔊 The volume can't be higher than 200."),
+            .setAuthor({ name: "| ⚠️ Volume ", iconURL: ctx.author.avatarURL()})
+            .setDescription("The volume can't be higher than 200."),
         ],
       });
     if (number < 0)
@@ -64,8 +64,8 @@ export default class Volume extends Command {
         embeds: [
           embed
             .setColor(this.client.color.red)
-            .setAuthor({ name: "Disco Janet ⚠️ Volume ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-            .setDescription("🔊 The volume can't be lower than 0."),
+            .setAuthor({ name: "| ⚠️ Volume ", iconURL: ctx.author.avatarURL()})
+            .setDescription("The volume can't be lower than 0."),
         ],
       });
     player.player.setVolume(number / 100);
@@ -73,9 +73,9 @@ export default class Volume extends Command {
       embeds: [
         embed
           .setColor(this.client.color.main)
-          .setAuthor({ name: "Disco Janet 🎵 Volume ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+          .setAuthor({ name: "| 🔊 Volume ", iconURL: ctx.author.avatarURL()})
           .setDescription(
-            `🔊 Set the volume to ${(player.volume * 100).toFixed()}`
+            `Set the volume to ${(player.volume * 100).toFixed()}`
           ),
       ],
     });

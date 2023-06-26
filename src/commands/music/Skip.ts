@@ -36,8 +36,8 @@ export default class Skip extends Command {
         embeds: [
           embed
             .setColor(this.client.color.red)
-            .setAuthor({ name: "Disco Janet ⚠️ Skip ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-            .setDescription("⏭️ There are no songs in the queue."),
+            .setAuthor({ name: "Disco Janet ⚠️ Skip ", iconURL: ctx.author.avatarURL()})
+            .setDescription("There are no songs in the queue."),
         ],
       });
     player.skip();
@@ -48,9 +48,9 @@ export default class Skip extends Command {
         embeds: [
           embed
             .setColor(this.client.color.main)
-            .setAuthor({ name: "Disco Janet 🎵 Skip", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+            .setAuthor({ name: "| ⏭️ Skip", iconURL: ctx.author.avatarURL()})
             .setDescription(
-              `⏭️ Skipped [${player.current.info.title}](${player.current.info.uri})`
+              `Skipped [${player.current.info.title}](${player.current.info.uri})`
             ),
         ],
       });

@@ -6,6 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "npm run start:bot",
+    "start:disco": "npm run start:bot --disco=true",
     "start:bot": "npm run build && node --enable-source-maps dist/index.js",
     "build": "tsc --project tsconfig.json"
   },
@@ -43,9 +44,13 @@
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "moment": "^2.29.4",
+    "pm2": "^5.3.0",
     "request": "^2.88.2",
     "shoukaku": "^3.3.1",
     "signale": "^1.4.0"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
   },
   "signale": {
     "displayScope": true,

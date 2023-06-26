@@ -50,6 +50,10 @@ export class Utils {
     return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   }
 
+  public static toUnixTime(date: Date): number {
+    return Math.floor(date.getTime() / 1000);
+  }
+
   public static parseTime(string: string): number {
     const time = string.match(/([0-9]+[d,h,m,s])/g);
     if (!time) return 0;

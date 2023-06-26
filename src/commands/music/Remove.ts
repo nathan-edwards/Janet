@@ -43,7 +43,7 @@ export default class Remove extends Command {
         embeds: [
           embed
             .setColor(this.client.color.red)
-            .setAuthor({ name: "Disco Janet ⚠️ Remove ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+            .setAuthor({ name: "| ⚠️ Remove ", iconURL: ctx.author.avatarURL() })
             .setDescription("⏏️ There are no songs in the queue."),
         ],
       });
@@ -52,7 +52,7 @@ export default class Remove extends Command {
         embeds: [
           embed
             .setColor(this.client.color.red)
-            .setAuthor({ name: "Disco Janet ⚠️ Remove ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+            .setAuthor({ name: "| ⚠️ Remove ", iconURL: ctx.author.avatarURL() })
             .setDescription("⏏️ That is not a valid number."),
         ],
       });
@@ -61,7 +61,7 @@ export default class Remove extends Command {
         embeds: [
           embed
             .setColor(this.client.color.red)
-            .setAuthor({ name: "Disco Janet ⚠️ Remove ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+            .setAuthor({ name: "| ⚠️ Remove ", iconURL: ctx.author.avatarURL() })
             .setDescription("⏏️ That is not a valid number."),
         ],
       });
@@ -70,7 +70,7 @@ export default class Remove extends Command {
         embeds: [
           embed
             .setColor(this.client.color.red)
-            .setAuthor({ name: "Disco Janet ⚠️ Remove ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+            .setAuthor({ name: "| ⚠️ Remove ", iconURL: ctx.author.avatarURL() })
             .setDescription("⏏️ That is not a valid number."),
         ],
       });
@@ -79,7 +79,7 @@ export default class Remove extends Command {
       embeds: [
         embed
           .setColor(this.client.color.main)
-          .setAuthor({ name: "Disco Janet 🎵 Remove ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+          .setAuthor({ name: "| 🎵 Remove ", iconURL: ctx.author.avatarURL() })
           .setDescription(
             `⏏️ Removed song number ${Number(args[0])} from the queue`
           ),

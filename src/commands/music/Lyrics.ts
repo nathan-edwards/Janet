@@ -40,7 +40,7 @@ export default class Lyrics extends Command {
                 embeds: [
                     this.client.embed()
                         .setColor(this.client.color.main)
-                        .setAuthor({ name: "Disco Janet 🎶 Lyrics", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+                        .setAuthor({ name: "| 🎶 Lyrics", iconURL: ctx.author.avatarURL() })
                         .setThumbnail(player.current.info.thumbnail)
                         .setTitle(player.current.info.title)
                         .setDescription(

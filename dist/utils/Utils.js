@@ -38,6 +38,9 @@ export class Utils {
     static formatNumber(number) {
         return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     }
+    static toUnixTime(date) {
+        return Math.floor(date.getTime() / 1000);
+    }
     static parseTime(string) {
         const time = string.match(/([0-9]+[d,h,m,s])/g);
         if (!time)

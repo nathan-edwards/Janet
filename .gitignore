@@ -5,6 +5,8 @@ node_modules
 # Ignore all files in the .vscode folder
 /.vscode
 
+dist
+
 # Ignore all files in the node_modules folder
 /node_modules
 
@@ -13,3 +15,7 @@ command.ts
 commands.json
 
 application.yml
+
+/lavalink
+
+/dist

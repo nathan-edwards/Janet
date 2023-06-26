@@ -36,7 +36,7 @@ export default class Resume extends Command {
         embeds: [
           embed
             .setColor(this.client.color.red)
-            .setAuthor({ name: "Disco Janet ⚠️ Resume ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+            .setAuthor({ name: "| ⚠️ Resume ", iconURL: ctx.author.avatarURL() })
             .setDescription("▶️ The player is not paused."),
         ],
       });
@@ -46,7 +46,7 @@ export default class Resume extends Command {
       embeds: [
         embed
           .setColor(this.client.color.main)
-          .setAuthor({ name: "Disco Janet 🎵 Resume ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+          .setAuthor({ name: "| 🎵 Resume ", iconURL: ctx.author.avatarURL() })
           .setDescription(`▶️ Resumed the player`),
       ],
     });

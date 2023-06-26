@@ -36,7 +36,7 @@ export default class ClearQueue extends Command {
         embeds: [
           embed
             .setColor(this.client.color.red)
-            .setAuthor({ name: "Disco Janet ⚠️ Clear Queue ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
+            .setAuthor({ name: `| ⚠️ Clear Queue`, iconURL: ctx.author.avatarURL() })
             .setDescription("There are no songs in the queue."),
         ],
       });
@@ -46,8 +46,8 @@ export default class ClearQueue extends Command {
       embeds: [
         embed
           .setColor(this.client.color.main)
-          .setAuthor({ name: "Disco Janet 🎵 Clear Queue ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-          .setDescription(`🧹 Queue has been cleared!`),
+          .setAuthor({ name: `| 🧹 Clear Queue`, iconURL: ctx.author.avatarURL() })
+          .setDescription(`Queue has been cleared!`),
       ],
     });
   }

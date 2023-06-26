@@ -1,13 +1,13 @@
 import {
+  ApplicationCommandType,
   Collection,
+  Client,
   ClientOptions,
+  EmbedBuilder,
   Routes,
   REST,
   RESTPostAPIChatInputApplicationCommandsJSONBody,
   PermissionsBitField,
-  ApplicationCommandType,
-  Client,
-  EmbedBuilder,
 } from "discord.js";
 import fs from "fs";
 import path from "path";
@@ -22,6 +22,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default class Janet extends Client {
   public commands: Collection<string, any> = new Collection();
+  public components: Collection<string, any> = new Collection();
   public aliases: Collection<string, any> = new Collection();
   public prisma = new PrismaClient();
   public cooldowns: Collection<string, any> = new Collection();
@@ -40,10 +41,16 @@ export default class Janet extends Client {
     return new EmbedBuilder();
   }
   public async start(token: string): Promise<string> {
-    this.loadCommands();
-    this.logger.info(`Successfully loaded commands!`);
-    this.loadEvents();
-    this.logger.info(`Successfully loaded events!`);
+    this.logger.info(`Loading commands...`);
+    this.loadCommands(process.env.npm_config_disco ? ['music'] : fs.readdirSync(path.join(__dirname, "../commands")).filter(dir => dir !== 'music'));
+    this.logger.success(`Successfully loaded commands!`);
+    this.logger.info(`Loading events...`);
+    this.loadEvents(process.env.npm_config_disco ? ['player', 'client'] : fs.readdirSync(path.join(__dirname, "../events")).filter(dir => dir !== 'player'));
+    this.logger.success(`Successfully loaded events!`);
+    this.logger.info(`Loading components...`);
+    this.loadComponents(fs.readdirSync(path.join(__dirname, "../components")));
+    this.logger.success(`Successfully loaded components!`);
+    this.logger.info(`Connecting to the database...`);
     this.prisma
       .$connect()
       .then(() => {
@@ -56,9 +63,8 @@ export default class Janet extends Client {
     return await this.login(token);
   }
 
-  private loadCommands(): void {
-    const commandsPath = fs.readdirSync(path.join(__dirname, "../commands"));
-    commandsPath.forEach((dir) => {
+  private loadCommands(commandsPath: any[]): void {
+    commandsPath.forEach((dir: any) => {
       const commandFiles = fs
         .readdirSync(path.join(__dirname, `../commands/${dir}`))
         .filter((file) => file.endsWith(".js"));
@@ -106,6 +112,7 @@ export default class Janet extends Client {
       });
     });
     this.once("ready", async () => {
+      this.logger.info(`Loading slash commands...`);
       const applicationCommands =
         this.config.production === true
           ? Routes.applicationCommands(this.config.clientId ?? "")
@@ -118,16 +125,16 @@ export default class Janet extends Client {
           this.config.token ?? ""
         );
         await rest.put(applicationCommands, { body: this.body });
-        this.logger.info(`Successfully loaded slash commands!`);
+        this.logger.success(`Successfully loaded slash commands!`);
+        this.logger.success(`*boop* Hi There, I'm ${this.user.username}!`);
       } catch (error) {
         this.logger.error(error);
       }
     });
   }
 
-  private loadEvents(): void {
-    const eventsPath = fs.readdirSync(path.join(__dirname, "../events"));
-    eventsPath.forEach((dir) => {
+  private loadEvents(eventsPath: any[]): void {
+    eventsPath.forEach((dir: any) => {
       const events = fs
         .readdirSync(path.join(__dirname, `../events/${dir}`))
         .filter((file) => file.endsWith(".js"));
@@ -142,6 +149,20 @@ export default class Janet extends Client {
             this.on(evt.name, (...args) => evt.run(...args));
             break;
         }
+      });
+    });
+  }
+
+  private loadComponents(componentsPath: any[]): void {
+    componentsPath.forEach((dir: any) => {
+      const components = fs
+        .readdirSync(path.join(__dirname, `../components/${dir}`))
+        .filter((file) => file.endsWith(".js"));
+      components.forEach(async (file) => {
+        const component = (await import(`../components/${dir}/${file}`))
+          .default;
+        const comp = new component(this, file);
+        this.components.set(comp.name, comp);
       });
     });
   }

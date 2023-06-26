@@ -36,8 +36,8 @@ export default class Seek extends Command {
         embeds: [
           embed
             .setColor(this.client.color.red)
-            .setAuthor({ name: "Disco Janet ⚠️ Seek ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-            .setDescription("⏩ There are no songs in the queue."),
+            .setAuthor({ name: "| ⚠️ Seek ", iconURL: ctx.author.avatarURL() })
+            .setDescription("There are no songs in the queue."),
         ],
       });
     const time = client.utils.parseTime(args[0]);
@@ -46,8 +46,8 @@ export default class Seek extends Command {
         embeds: [
           embed
             .setColor(this.client.color.red)
-            .setAuthor({ name: "Disco Janet ⚠️ Seek ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-            .setDescription("⏩ Invalid time format."),
+            .setAuthor({ name: "| ⚠️ Seek ", iconURL: ctx.author.avatarURL() })
+            .setDescription("Invalid time format."),
         ],
       });
     player.seek(time);
@@ -56,8 +56,8 @@ export default class Seek extends Command {
       embeds: [
         embed
           .setColor(this.client.color.main)
-          .setAuthor({ name: "Disco Janet 🎵 Seek ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-          .setDescription(`⏩ Seeked to ${args[0]}`),
+          .setAuthor({ name: "| ⏩ Seek ", iconURL: ctx.author.avatarURL() })
+          .setDescription(`Seeked to ${args[0]}`),
       ],
     });
   }

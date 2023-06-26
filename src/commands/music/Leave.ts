@@ -36,8 +36,8 @@ export default class Leave extends Command {
         embeds: [
           embed
             .setColor(this.client.color.main)
-            .setAuthor({ name: "Disco Janet 🎵 Leave ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-            .setDescription(`🛑 Left <#${player.player.connection.channelId}>`),
+            .setAuthor({ name: "| 🛑 Leave ", iconURL: ctx.author.avatarURL()})
+            .setDescription(`Left <#${player.player.connection.channelId}>`),
         ],
       });
       player.destroy();
@@ -46,8 +46,8 @@ export default class Leave extends Command {
         embeds: [
           embed
             .setColor(this.client.color.red)
-            .setAuthor({ name: "Disco Janet ⚠️ Leave ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-            .setDescription(`🛑 I'm not in a voice channel`),
+            .setAuthor({ name: "| 🛑 Leave ", iconURL: ctx.author.avatarURL()})
+            .setDescription(`I'm not in a voice channel`),
         ],
       });
     }

@@ -34,15 +34,15 @@ export default class Autoplay extends Command {
         if (!autoplay) {
             embed
                 .setColor(client.color.main)
-                .setAuthor({ name: "Disco Janet 🎵 Autoplay ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-                .setDescription(`📻 Autoplay has been enabled`);
+                .setAuthor({ name: `| 📻 Autoplay `, iconURL: ctx.author.avatarURL() })
+                .setDescription(`Autoplay has been enabled`);
             player.setAutoplay(true);
         }
         else {
             embed
                 .setColor(client.color.main)
-                .setAuthor({ name: "Disco Janet 🎵 Autoplay ", iconURL: "https://i.ibb.co/b3mnh2f/disco-janet.png" })
-                .setDescription(`📻 Autoplay has been disabled`);
+                .setAuthor({ name: `| 📻 Autoplay `, iconURL: ctx.author.avatarURL() })
+                .setDescription(`Autoplay has been disabled`);
             player.setAutoplay(false);
         }
         ctx.sendMessage({ embeds: [embed] });

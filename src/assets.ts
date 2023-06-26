@@ -29,6 +29,10 @@ export default {
             url: "https://i.ibb.co/cLS7YgF/msi.jpg",
         },
         {
+            name: "mount-targon",
+            url: "https://i.ibb.co/0fX3g0R/mount-targon.jpg",
+        },
+        {
             name: "noxus",
             url: "https://i.ibb.co/WGgTFrg/noxus.jpg",
         },
@@ -39,10 +43,6 @@ export default {
         {
             name: "shadow-isles",
             url: "https://i.ibb.co/hKDxCBj/shadow-isles.jpg",
-        },
-        {
-            name: "targon",
-            url: "https://i.ibb.co/bH4XZHv/targon.webp",
         },
         {
             name: "zaun",
