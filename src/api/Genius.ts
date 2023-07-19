@@ -1,4 +1,5 @@
 import axios from "axios";
+import config from "../config";
 
 export async function searchSong(track: string) {
     const options = {
@@ -6,7 +7,7 @@ export async function searchSong(track: string) {
         url: 'https://genius-song-lyrics1.p.rapidapi.com/search/',
         params: { q: track, per_page: '10', page: '1' },
         headers: {
-            'X-RapidAPI-Key': '2535964012mshd889dbc897cff15p1a6aa7jsn87020cc1dbbd',
+            'X-RapidAPI-Key': config.rapidapi,
             'X-RapidAPI-Host': 'genius-song-lyrics1.p.rapidapi.com'
         }
     };
@@ -26,7 +27,7 @@ export async function getLyrics(id: number) {
         url: 'https://genius-song-lyrics1.p.rapidapi.com/song/lyrics/',
         params: { id: id },
         headers: {
-            'X-RapidAPI-Key': '2535964012mshd889dbc897cff15p1a6aa7jsn87020cc1dbbd',
+            'X-RapidAPI-Key': config.rapidapi,
             'X-RapidAPI-Host': 'genius-song-lyrics1.p.rapidapi.com'
         }
     };

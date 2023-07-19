@@ -29,6 +29,7 @@ export default {
       secure: parseBoolean(process.env.LAVALINK_SECURE) || false,
     },
   ],
+  rapidapi: process.env.RAPIDAPI_KEY,
 };
 
 function parseBoolean(value: string | undefined): boolean {

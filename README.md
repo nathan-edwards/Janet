@@ -1,1 +1,3 @@
 Hi There! I'm Janet
+
+Janet is a versatile discord.js bot that can handle various tasks and commands. Whether you need to moderate your server, play music, search the web, or have fun with memes and trivia, Janet can do it all. Janet is also friendly, helpful, and always ready to assist you. Inspired by the character from the popular TV show The Good Place, Janet aims to make your discord experience more enjoyable and convenient.
